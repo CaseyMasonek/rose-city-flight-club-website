@@ -50,8 +50,6 @@ export async function login(formState: LoginFormState, formData: FormData) {
 
     const user = data[0]
 
-    console.log(username, password, encryptedPassword, data[0].id);
-
     await createSession(user); // Add user to session
 
     if (user.is_admin) {
