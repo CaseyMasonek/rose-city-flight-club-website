@@ -40,3 +40,25 @@ export type LoginFormState =
     message?: string
 }
     | undefined
+
+// User
+export type User = {
+    id: string,
+    created_at: Date,
+    username: string,
+    full_name: string,
+    email: string,
+    password: string,
+    phone: string,
+    billing_address: string,
+    delivery_address: string,
+    is_admin: boolean,
+    notes: string,
+}
+
+// User session payload
+export type SessionPayload = {
+    id: string,
+    is_admin: boolean,
+    expiresAt: Date,
+}
