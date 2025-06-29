@@ -13,7 +13,7 @@ export default function LoginForm() {
 
     return (
         <form action={action}>
-            <Stack spacing={2}>
+            <Stack spacing={2} className={'w-1/3'}>
                 <TextField variant="standard" error={(state?.errors?.username != null)} label='Username' id='username' name='username' />
                 {state?.errors?.username && <p>{state.errors.username}</p>}
 
