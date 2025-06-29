@@ -1,15 +1,13 @@
 'use server'
 
-import {LoginFormState, UserFormSchema, User} from "@/app/lib/definitions";
+import {LoginFormState, UserFormSchema} from "@/app/lib/definitions";
 import { sha256 } from "js-sha256";
-import postgres from 'postgres';
-import {createSession} from "@/app/lib/session";
+import {db} from '@/app/lib/db'
+import {createSession, deleteSession} from "@/app/lib/session";
 import {redirect} from "next/navigation";
 
 // Trim sign up form schema for login schema
 const AuthenticateUser = UserFormSchema.omit({ id: true, full_name: true, email: true, billing_address: true, delivery_address: true, });
-
-const sql = postgres(process.env.POSTGRES_URL!, {ssl: 'require'}); // Connect to DB
 
 /**
  * Authenticate user
@@ -37,7 +35,13 @@ export async function login(formState: LoginFormState, formData: FormData) {
     const encryptedPassword = sha256(password!.toString());
 
     // Check is user exists in database
-    const data = await sql<User[]>`SELECT * FROM users WHERE lower(username) = ${username} AND password = ${encryptedPassword}`;
+    //const data = await sql<User[]>`SELECT * FROM users WHERE lower(username) = ${username} AND password = ${encryptedPassword}`;
+    const data = await db
+        .selectFrom('users')
+        .selectAll()
+        .where('username','=',username)
+        .where('password','=',encryptedPassword)
+        .execute()
 
     // Throw error if not
     if (data.length == 0) {
@@ -57,4 +61,9 @@ export async function login(formState: LoginFormState, formData: FormData) {
     } else {
         redirect('/');
     }
+}
+
+export async function logout() {
+    await deleteSession()
+    redirect('/login')
 }

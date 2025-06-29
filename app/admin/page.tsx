@@ -6,8 +6,6 @@ export default async function Page() {
     const session = await verifySession();
     const is_admin = session?.is_admin;
 
-    console.log(session,is_admin);
-
     if (is_admin == null) {
         redirect('/login')
     } else if (!is_admin) {
