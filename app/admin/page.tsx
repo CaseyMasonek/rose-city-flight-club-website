@@ -1,5 +1,5 @@
 import {Typography} from "@mui/material";
-import {verifySession} from "@/app/lib/dal";
+import {verifySession} from "@/app/lib/dal/users";
 import {redirect} from "next/navigation";
 
 export default async function Page() {

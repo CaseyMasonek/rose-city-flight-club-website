@@ -1,12 +1,30 @@
 import {Stack, Typography, Divider, Button, Box} from "@mui/material";
 import Link from "next/link";
-import {getUser} from "@/app/lib/dal";
-import {logout} from "@/app/lib/actions/auth";
+import {getUser} from "@/app/lib/dal/users";
+import {logout} from "@/app/lib/auth/actions";
+
+export default async function Header() {
+    const user = await getUser().catch(() => null);
+
+    return (
+        <Stack spacing={1}>
+            <Stack direction="row">
+                <Link href={'/'}>
+                    <Typography variant='h4' sx={{ width: '200%' }}>
+                        Rose City Flight Club
+                    </Typography>
+                </Link>
+                { user?.id ? <LogoutButton /> :<LoginButton />}
+            </Stack>
+            <Divider />
+        </Stack>
+    )
+}
 
 function LoginButton() {
     return (
         <Link href={'/login'} className="w-full">
-            <Button variant='outlined' color='secondary' className="float-right" >
+            <Button variant='outlined' color='secondary' sx={{float:'right'}} >
                 Log in
             </Button>
         </Link>
@@ -16,33 +34,9 @@ function LoginButton() {
 function LogoutButton() {
     return (
         <Box className="w-full">
-            <Button variant='outlined' color='secondary' className="float-right" onClick={logout} >
+            <Button variant='outlined' color='secondary' sx={{float:'right'}} onClick={logout} >
                 Log Out
             </Button>
         </Box>
-    )
-}
-
-export default async function Header() {
-    let user
-
-    try {
-        user = await getUser();
-    } catch (error) {
-        user = null
-    }
-
-    return (
-        <Stack spacing={1}>
-            <Stack direction="row">
-                <Link href={'/'} className="w-1/2">
-                    <Typography variant='h4'>
-                        Rose City Flight Club
-                    </Typography>
-                </Link>
-                { user?.id ? <LogoutButton /> :<LoginButton />}
-            </Stack>
-            <Divider />
-        </Stack>
     )
 }

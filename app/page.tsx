@@ -1,11 +1,12 @@
 import {Box, Typography} from '@mui/material'
+import {getUser} from "@/app/lib/dal/users";
 
-export default function Home() {
+export default async function Home() {
+    const user = await getUser()
+
     return (
-      <Box className={''}>
           <Typography className={'text-2xl'}>
-              Hello World!
+              Hello, {user.username}!
           </Typography>
-      </Box>
     );
 }

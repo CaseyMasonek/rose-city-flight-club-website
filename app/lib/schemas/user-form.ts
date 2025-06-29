@@ -1,13 +1,17 @@
 import { z } from 'zod'
+import validator from 'validator'
 
 // Zod form validation
 export const UserFormSchema = z.object({
-    id: z.string(),
     username: z
         .string()
         .min(2,{message : 'Username must be at least 2 characters'})
         .trim(),
-    full_name: z
+    first_name: z
+        .string()
+        .min(2,{message: 'Name must be at least 2 characters'})
+        .trim(),
+    last_name: z
         .string()
         .min(2,{message: 'Name must be at least 2 characters'})
         .trim(),
@@ -23,42 +27,24 @@ export const UserFormSchema = z.object({
             message: 'Contain at least one special character.',
         })
         .trim(),
+    confirm_password: z
+        .string()
+        .min(8, { message: 'Confirm your password'}),
     billing_address: z
         .string()
-        .min(2, {message: 'Billing address must be at least 3 characters'})
-        .trim(),
+        .min(2, {message: 'Billing address must be at least 2 characters'})
+        .trim()
+        .optional()
+        .or(z.literal('')),
     delivery_address: z
-        .string(),
+        .string()
+        .min(2, {message: 'Billing address must be at least 2 characters'})
+        .trim()
+        .optional()
+        .or(z.literal('')),
+    phone: z
+        .string()
+        .refine(validator.isMobilePhone,{message: 'Must be a valid phone number'})
+        .optional()
+        .or(z.literal('')),
 });
-
-export type LoginFormState =
-    | {
-    errors?: {
-        username?: string[]
-        password?: string[]
-    }
-    message?: string
-}
-    | undefined
-
-// User
-export type User = {
-    id: string,
-    created_at: Date,
-    username: string,
-    full_name: string,
-    email: string,
-    password: string,
-    phone: string,
-    billing_address: string,
-    delivery_address: string,
-    is_admin: boolean,
-    notes: string,
-}
-
-// User session payload
-export type SessionPayload = {
-    id: string,
-    is_admin: boolean,
-    expiresAt: Date,
-}

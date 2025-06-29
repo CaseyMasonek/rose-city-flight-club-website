@@ -1,10 +1,12 @@
 import 'server-only'
 
 import { cookies } from 'next/headers'
-import { decrypt } from '@/app/lib/session'
+import { decrypt } from '@/app/lib/auth/session'
 import {cache} from "react";
 import {redirect} from "next/navigation";
-import {db} from "@/app/lib/db";
+import {db, Database} from "@/app/lib/db/client";
+import {Insertable, ReferenceExpression} from "kysely";
+import {User} from "@/app/lib/types/user";
 
 /**
  * Make sure user is logged in
@@ -44,3 +46,23 @@ export const getUser = cache(async () => {
         return null
     }
 })
+
+export const createUser = async (user:Insertable<Database['users']>) => {
+    const created_user = await db
+        .insertInto('users')
+        .values(user)
+        .returningAll()
+        .executeTakeFirstOrThrow()
+
+    return created_user
+}
+
+export const verifyUniqueness = async (column:ReferenceExpression<Database, "users">,value:string) => {
+    const isUnique = (await db
+        .selectFrom('users')
+        .selectAll()
+        .where(column, '=', value)
+        .execute()).length == 0
+
+    return isUnique
+}

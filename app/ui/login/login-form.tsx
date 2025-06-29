@@ -1,7 +1,7 @@
 'use client'
 
 import {TextField, Stack, Button, Typography} from "@mui/material";
-import {login} from '@/app/lib/actions/auth'
+import {login} from '@/app/lib/auth/actions'
 import {useActionState} from "react";
 
 /**
