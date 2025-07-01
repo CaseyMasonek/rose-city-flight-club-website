@@ -14,7 +14,9 @@ export default async function Header() {
                 display: 'flex',
                 justifyContent: 'center',
             }}>
-                <Image src="/logo_green.png" alt="logo" width={700} height={249} className={'w-75'} />
+                <Link href="/">
+                    <Image src="/logo_green.png" alt="logo" width={700} height={249} className={'w-75'} />
+                </Link>
             </Box>
         )
     }
@@ -27,20 +29,10 @@ export default async function Header() {
                         Rose City Flight Club
                     </Typography>
                 </Link>
-                { user?.id ? <LogoutButton /> : <LoginButton />}
+                <LogoutButton />
             </Stack>
             <Divider />
         </Stack>
-    )
-}
-
-function LoginButton() {
-    return (
-        <Link href={'/login'} className="w-full">
-            <Button variant='outlined' color='secondary' sx={{float:'right'}} >
-                Log in
-            </Button>
-        </Link>
     )
 }
 

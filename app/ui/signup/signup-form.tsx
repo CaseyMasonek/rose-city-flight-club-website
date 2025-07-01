@@ -1,6 +1,6 @@
 "use client";
 
-import { TextField, Stack, Button, Typography } from "@mui/material";
+import { TextField, Stack, Button, Typography, Box } from "@mui/material";
 import { signup } from "@/app/lib/auth/actions";
 import { useActionState } from "react";
 
@@ -12,20 +12,27 @@ export default function SignupForm() {
   const [state, action, pending] = useActionState(signup, undefined);
 
   return (
+      <Box sx={{
+        maxWidth: 600,
+        width: '100%',
+      }}>
     <form action={action}>
-      <Stack spacing={2} className={"w-1/3"}>
+      <Stack spacing={2} className={"w-full"}>
         <TextField
-          variant="standard"
+          variant="outlined"
           error={state?.errors?.username != null}
           label="Username"
           id="username"
           name="username"
+          sx={{
+            width: "100%",
+          }}
           required
         />
         {state?.errors?.username && <p>{state.errors.username}</p>}
 
         <TextField
-          variant="standard"
+          variant="outlined"
           error={state?.errors?.password != null}
           label="Password"
           name="password"
@@ -42,7 +49,7 @@ export default function SignupForm() {
         )}
 
         <TextField
-          variant="standard"
+          variant="outlined"
           error={state?.errors?.confirm_password != null}
           label="Confirm Password"
           name="confirm_password"
@@ -54,7 +61,7 @@ export default function SignupForm() {
         )}
 
         <TextField
-          variant="standard"
+          variant="outlined"
           error={state?.errors?.first_name != null}
           label="First Name"
           id="first_name"
@@ -64,7 +71,7 @@ export default function SignupForm() {
         {state?.errors?.first_name && <p>{state.errors.first_name}</p>}
 
         <TextField
-          variant="standard"
+          variant="outlined"
           error={state?.errors?.first_name != null}
           label="Last Name"
           id="last_name"
@@ -74,7 +81,7 @@ export default function SignupForm() {
         {state?.errors?.last_name && <p>{state.errors.last_name}</p>}
 
         <TextField
-          variant="standard"
+          variant="outlined"
           error={state?.errors?.email != null}
           label="Email"
           id="email"
@@ -84,7 +91,7 @@ export default function SignupForm() {
         {state?.errors?.email && <p>{state.errors.email}</p>}
 
         <TextField
-          variant="standard"
+          variant="outlined"
           error={state?.errors?.phone != null}
           label="Phone Number"
           id="phone"
@@ -93,7 +100,7 @@ export default function SignupForm() {
         {state?.errors?.phone && <p>{state.errors.phone}</p>}
 
         <TextField
-          variant="standard"
+          variant="outlined"
           error={state?.errors?.delivery_address != null}
           label="Delivery Address"
           id="delivery_address"
@@ -104,7 +111,7 @@ export default function SignupForm() {
         )}
 
         <TextField
-          variant="standard"
+          variant="outlined"
           error={state?.errors?.billing_address != null}
           label="Billing Address"
           id="billing_address"
@@ -119,5 +126,6 @@ export default function SignupForm() {
         </Button>
       </Stack>
     </form>
+      </Box>
   );
 }
