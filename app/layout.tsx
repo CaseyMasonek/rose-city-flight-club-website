@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {ThemeProvider} from "@mui/material";
+import {ThemeProvider, Typography} from "@mui/material";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { CssBaseline, Stack, Box } from "@mui/material";
 import theme from "@/app/theme";
@@ -37,7 +37,9 @@ export default function RootLayout({
               <CssBaseline />
               <Stack spacing={2} className={'m-5'}>
                   <Header />
-                  <Box>
+                  <Box sx={{
+                      maxHeight: '83dvh'
+                  }}>
                       {children}
                   </Box>
               </Stack>
