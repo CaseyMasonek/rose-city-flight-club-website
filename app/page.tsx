@@ -6,7 +6,7 @@ export default async function Home() {
 
     return (
           <Typography className={'text-2xl'}>
-              Hello, {user!.username}!
+              Hello, {user!.first_name}!
           </Typography>
     );
 }

@@ -5,7 +5,8 @@ import {ThemeProvider, Typography} from "@mui/material";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { CssBaseline, Stack, Box } from "@mui/material";
 import theme from "@/app/theme";
-import Header from "@/app/ui/header";
+import Header from "@/app/ui/header/header";
+import Footer from "@/app/ui/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,14 +36,20 @@ export default function RootLayout({
       <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
               <CssBaseline />
-              <Stack spacing={2} className={'m-5'}>
+              <Box className={'m-5'} sx={{
+                  display: "flex",
+                  flexDirection: 'column',
+                  minHeight: '96vh',
+              }}>
                   <Header />
                   <Box sx={{
-                      maxHeight: '83dvh'
+                      flexGrow: 1,
+                      p: 3
                   }}>
                       {children}
                   </Box>
-              </Stack>
+                  <Footer />
+              </Box>
           </ThemeProvider>
       </AppRouterCacheProvider>
       </body>

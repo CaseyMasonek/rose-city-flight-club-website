@@ -8,9 +8,6 @@ import {createSession, deleteSession} from "@/app/lib/auth/session";
 import {redirect} from "next/navigation";
 import {createUser, verifyUniqueness} from "@/app/lib/dal/users";
 
-// Trim sign up form schema for login schema
-const AuthenticateUser = UserFormSchema.omit({ first_name: true, last_name: true, email: true, billing_address: true, delivery_address: true, phone: true, confirm_password: true });
-
 /**
  * Authenticate user
  * @param formState
@@ -18,32 +15,17 @@ const AuthenticateUser = UserFormSchema.omit({ first_name: true, last_name: true
  */
 export async function login(formState: LoginFormState, formData: FormData) {
     // Get form data
-    const username = formData.get("username")!.toString().toLowerCase();
+    const email = formData.get("email")!.toString().toLowerCase();
     const password = formData.get("password");
-
-    // Validate form data
-    const validatedFields = AuthenticateUser.safeParse({
-        username: username,
-        password: password,
-    })
-
-    if (!validatedFields.success) {
-        console.log(validatedFields.error.formErrors);
-
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-        }
-    }
 
     // Encrypt password to check with the database
     const encryptedPassword = sha256(password!.toString());
 
     // Check is user exists in database
-    //const data = await sql<User[]>`SELECT * FROM users WHERE lower(username) = ${username} AND password = ${encryptedPassword}`;
     const data = await db
         .selectFrom('users')
         .selectAll()
-        .where('username','=',username)
+        .where('email','=',email)
         .where('password','=',encryptedPassword)
         .execute()
 
@@ -51,11 +33,10 @@ export async function login(formState: LoginFormState, formData: FormData) {
     if (data.length == 0) {
         return {
             errors: {
-                username:["Incorrect username or password"],
+                password:["Incorrect username or password"],
             },
         }
     }
-
     const user = data[0]
 
     await createSession(user); // Add user to session
@@ -78,18 +59,21 @@ export async function logout() {
 export async function signup(formState: SignupFormState, formData: FormData) {
     const data = Object.fromEntries(formData.entries())
 
-    const username = (data.username as string).toLowerCase()
     const password = data.password as string
     const confirmPassword = data.confirm_password as string
 
     const validatedFields = UserFormSchema.safeParse({
-        username,
         password,
         confirm_password: confirmPassword,
         first_name: data.first_name,
         last_name: data.last_name,
         email: data.email,
         phone: data.phone,
+        delivery_steet: data.delivery_steet,
+        delivery_apt_number: data.delivery_apt_number,
+        delivery_city: data.delivery_city,
+        delivery_state: data.delivery_state,
+        delivery_zip: data.delivery_zip,
         billing_address: data.billing_address,
         delivery_address: data.delivery_address,
     })
@@ -108,14 +92,6 @@ export async function signup(formState: SignupFormState, formData: FormData) {
         }
     }
 
-    if (!(await verifyUniqueness('username',username))) {
-        return {
-            errors: {
-                username:["Username already taken"],
-            }
-        }
-    }
-
     if (!(await verifyUniqueness('email',data.email as string))) {
         return {
             errors: {
@@ -127,7 +103,6 @@ export async function signup(formState: SignupFormState, formData: FormData) {
     const encryptedPassword = sha256(password)
 
     const userData = {
-        username: username,
         password: encryptedPassword,
         first_name: data.first_name as string,
         last_name: data.last_name as string,

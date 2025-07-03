@@ -19,23 +19,11 @@ export default function LoginForm() {
         }}>
             <form action={action} className="">
                 <Stack spacing={2} className={'w-full'}>
-                    <TextField variant="outlined" error={(state?.errors?.username != null)} label='Username'
-                               id='username' name='username'/>
-                    {state?.errors?.username && <p>{state.errors.username}</p>}
+                    <TextField variant="outlined" label='Email' id='email' name='email' type='email' />
 
                     <TextField variant="outlined" error={(state?.errors?.password != null)} label='Password'
                                name='password' type='password'/>
-                    {state?.errors?.password &&
-                        <Stack spacing={1}>
-                            <Typography>
-                                Password must:
-                            </Typography>
-                            {state.errors.password.map(error => (
-                                <li>
-                                    {error}
-                                </li>
-                            ))}
-                        </Stack>}
+                    {state?.errors?.password && <p>{state.errors.password}</p>}
 
                     <Stack spacing={2} direction='row' sx={{
                         width: '100%',

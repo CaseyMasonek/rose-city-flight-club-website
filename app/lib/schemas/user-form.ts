@@ -3,10 +3,6 @@ import validator from 'validator'
 
 // Zod form validation
 export const UserFormSchema = z.object({
-    username: z
-        .string()
-        .min(2,{message : 'Username must be at least 2 characters'})
-        .trim(),
     first_name: z
         .string()
         .min(2,{message: 'Name must be at least 2 characters'})
@@ -36,9 +32,32 @@ export const UserFormSchema = z.object({
         .trim()
         .optional()
         .or(z.literal('')),
-    delivery_address: z
+    delivery_street: z
         .string()
-        .min(2, {message: 'Billing address must be at least 2 characters'})
+        .min(2, {message: 'Street must be at least 2 characters'})
+        .trim()
+        .optional()
+        .or(z.literal('')),
+    delivery_apt_number: z
+        .string()
+        .trim()
+        .optional()
+        .or(z.literal('')),
+    delivery_city: z
+        .string()
+        .min(2, {message: 'City must be at least 2 characters'})
+        .trim()
+        .optional()
+        .or(z.literal('')),
+    delivery_zip: z
+        .string()
+        .min(2, {message: 'Zip code must be at least 2 characters'})
+        .trim()
+        .optional()
+        .or(z.literal('')),
+    delivery_state: z
+        .string()
+        .min(2, {message: 'State must be at least 2 characters'})
         .trim()
         .optional()
         .or(z.literal('')),
