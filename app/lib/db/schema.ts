@@ -7,8 +7,8 @@ export interface Database {
         first_name: string
         last_name: string
         email: string
-        billing_address: string | null
-        delivery_address: string | null
+        billing_address: object | null
+        delivery_address: object | null
         phone: string | null
         is_admin: boolean
         notes: string

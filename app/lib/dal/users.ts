@@ -4,7 +4,8 @@ import { cookies } from 'next/headers'
 import { decrypt } from '@/app/lib/auth/session'
 import {cache} from "react";
 import {redirect} from "next/navigation";
-import {db, Database} from "@/app/lib/db/client";
+import {db} from "@/app/lib/db/client";
+import {Database} from "@/app/lib/db/schema";
 import {Insertable, ReferenceExpression} from "kysely";
 import {User} from "@/app/lib/types/user";
 

@@ -6,8 +6,8 @@ export type User = {
     email: string,
     password: string,
     phone: string | null,
-    billing_address: string | null,
-    delivery_address: string | null,
+    billing_address: object | null,
+    delivery_address: object | null,
     is_admin: boolean,
     notes: string | null,
 }

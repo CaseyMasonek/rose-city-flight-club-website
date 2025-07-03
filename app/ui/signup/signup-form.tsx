@@ -163,53 +163,53 @@ export default function SignupForm() {
                 error={state?.errors != null}
                 label="Street"
                 id="billing_street"
-                name="delivery_street"
+                name="billing_street"
                 sx={{width:"100%"}}
             />
-            {state?.errors?.delivery_street && (
-                <p>{state.errors.delivery_street}</p>
+            {state?.errors?.billing_street && (
+                <p>{state.errors.billing_street}</p>
             )}
 
             <TextField
                 variant="outlined"
-                error={state?.errors?.delivery_apt_number != null}
+                error={state?.errors?.billing_apt_number != null}
                 label="Apt. #"
-                id="delivery_apt_number"
-                name="delivery_apt_number"
+                id="billing_apt_number"
+                name="billing_apt_number"
                 sx={{width:"100%"}}
             />
-            {state?.errors?.delivery_apt_number && (
-                <p>{state.errors.delivery_apt_number}</p>
+            {state?.errors?.billing_apt_number && (
+                <p>{state.errors.billing_apt_number}</p>
             )}
 
             <TextField
                 variant="outlined"
-                error={state?.errors?.delivery_city != null}
+                error={state?.errors?.billing_city != null}
                 label="City"
-                id="delivery_city"
-                name="delivery_city"
+                id="billing_city"
+                name="billing_city"
                 sx={{width:"100%"}}
             />
-            {state?.errors?.delivery_city && <p>{state.errors.delivery_city}</p>}
+            {state?.errors?.billing_city && <p>{state.errors.billing_city}</p>}
 
             <TextField
                 variant="outlined"
-                error={state?.errors?.delivery_zip != null}
+                error={state?.errors?.billing_zip != null}
                 label="Zip"
-                id="delivery_zip"
-                name="delivery_zip"
+                id="billing_zip"
+                name="billing_zip"
                 sx={{width:"100%"}}
             />
-            {state?.errors?.delivery_zip && <p>{state.errors.delivery_zip}</p>}
+            {state?.errors?.billing_zip && <p>{state.errors.billing_zip}</p>}
 
             <Autocomplete
                 freeSolo
                 options={US_STATES}
                 renderInput={(params) => (
-                    <TextField {...params} label="State" name="delivery_state" error={state?.errors?.delivery_state != null} />
+                    <TextField {...params} label="State" name="billing_state" error={state?.errors?.billing_state != null} />
                 )}
             />
-            {state?.errors?.delivery_state && <p>{state.errors.delivery_state}</p>}
+            {state?.errors?.billing_state && <p>{state.errors.billing_state}</p>}
 
           </Stack>
 

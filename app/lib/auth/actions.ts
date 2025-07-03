@@ -69,14 +69,42 @@ export async function signup(formState: SignupFormState, formData: FormData) {
         last_name: data.last_name,
         email: data.email,
         phone: data.phone,
-        delivery_steet: data.delivery_steet,
+        delivery_street: data.delivery_street,
         delivery_apt_number: data.delivery_apt_number,
         delivery_city: data.delivery_city,
         delivery_state: data.delivery_state,
         delivery_zip: data.delivery_zip,
+        billing_street: data.billing_steet,
+        billing_apt_number: data.billing_apt_number,
+        billing_city: data.billing_city,
+        billing_state: data.billing_state,
+        billing_zip: data.billing_zip,
         billing_address: data.billing_address,
-        delivery_address: data.delivery_address,
     })
+
+    const deliveryAddress = {
+        street: data.delivery_street,
+        city: data.billing_city,
+        state: data.delivery_state,
+        zip: data.delivery_zip,
+        apt_number: data.delivery_apt_number,
+    }
+
+    const billingAddress = data.billing_street ? {
+        street: data.billing_street,
+        city: data.billing_city,
+        state: data.billing_state,
+        zip: data.billing_zip,
+        apt_number: data.billing_apt_number,
+    } : deliveryAddress
+
+    if (!(await verifyUniqueness('email',data.email as string))) {
+        return {
+            errors: {
+                email:["User with this email already exists"],
+            }
+        }
+    }
 
     if (!validatedFields.success) {
         return {
@@ -92,14 +120,6 @@ export async function signup(formState: SignupFormState, formData: FormData) {
         }
     }
 
-    if (!(await verifyUniqueness('email',data.email as string))) {
-        return {
-            errors: {
-                email:["User with this email already exists"],
-            }
-        }
-    }
-
     const encryptedPassword = sha256(password)
 
     const userData = {
@@ -108,8 +128,8 @@ export async function signup(formState: SignupFormState, formData: FormData) {
         last_name: data.last_name as string,
         email: data.email as string,
         phone: data.phone as string,
-        billing_address: data.billing_address as string,
-        delivery_address: data.delivery_address as string,
+        billing_address: billingAddress,
+        delivery_address: deliveryAddress,
         notes: '',
         is_admin: false
     }

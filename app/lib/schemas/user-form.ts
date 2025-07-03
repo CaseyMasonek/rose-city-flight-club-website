@@ -26,12 +26,6 @@ export const UserFormSchema = z.object({
     confirm_password: z
         .string()
         .min(8, { message: 'Confirm your password'}),
-    billing_address: z
-        .string()
-        .min(2, {message: 'Billing address must be at least 2 characters'})
-        .trim()
-        .optional()
-        .or(z.literal('')),
     delivery_street: z
         .string()
         .min(2, {message: 'Street must be at least 2 characters'})
@@ -56,6 +50,35 @@ export const UserFormSchema = z.object({
         .optional()
         .or(z.literal('')),
     delivery_state: z
+        .string()
+        .min(2, {message: 'State must be at least 2 characters'})
+        .trim()
+        .optional()
+        .or(z.literal('')),
+    billing_street: z
+        .string()
+        .min(2, {message: 'Street must be at least 2 characters'})
+        .trim()
+        .optional()
+        .or(z.literal('')),
+    billing_apt_number: z
+        .string()
+        .trim()
+        .optional()
+        .or(z.literal('')),
+    billing_city: z
+        .string()
+        .min(2, {message: 'City must be at least 2 characters'})
+        .trim()
+        .optional()
+        .or(z.literal('')),
+    billing_zip: z
+        .string()
+        .min(2, {message: 'Zip code must be at least 2 characters'})
+        .trim()
+        .optional()
+        .or(z.literal('')),
+    billing_state: z
         .string()
         .min(2, {message: 'State must be at least 2 characters'})
         .trim()
