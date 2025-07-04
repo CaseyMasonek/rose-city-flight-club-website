@@ -16,6 +16,7 @@ export default function Page() {
                 width: '100%',
                 flexDirection: 'column',
                 justifyContent: 'center',
+                marginY: '5%'
             }} spacing={10}>
                 <Box sx={horizontallyCentered}>
                     <LoginForm />

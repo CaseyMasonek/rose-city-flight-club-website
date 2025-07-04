@@ -33,7 +33,7 @@ export async function login(formState: LoginFormState, formData: FormData) {
     if (data.length == 0) {
         return {
             errors: {
-                password:["Incorrect username or password"],
+                password:["Incorrect email or password"],
             },
         }
     }
