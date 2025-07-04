@@ -16,7 +16,7 @@ export default function HeaderButtons() {
     return (
         <ButtonGroup variant="contained">
             {pages.map((page) => (
-                <Button key={page.label} color={currentPage == page.path ? 'primary' : 'inherit'}>
+                <Button key={page.label} color={currentPage == page.path || currentPage == "/" ? 'primary' : 'inherit'}>
                     <Link href={page.path}>
                         {page.label}
                     </Link>
