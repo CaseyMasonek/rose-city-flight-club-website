@@ -1,14 +1,17 @@
 import {Box, Typography} from "@mui/material";
-import {verifySession} from "@/app/lib/dal/users";
-import {redirect} from "next/navigation";
-import NewButton from "@/app/components/admin/new-button";
+import WinesTable from "@/app/components/admin/wines/wines-table";
+import {getWines} from "@/app/lib/dal/wines";
+
 
 export default async function Page() {
+    const wines = await getWines();
+
     return (
         <Box>
-            <Typography>
-                Admin page
+            <Typography variant={'h3'}>
+                All Wines
             </Typography>
+            <WinesTable data={wines} />
         </Box>
     )
 }

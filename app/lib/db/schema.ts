@@ -15,4 +15,23 @@ export interface Database {
         created_at: Generated<Date>
         birth_date: Date
     }
+    wines: {
+        id: Generated<string>
+        created_at: Generated<Date>
+        vintage: string
+        type: string
+        name: string
+        producer: string
+        varietals: string[]
+        designation: string
+        vineyard: string
+        country: string
+        region: string
+        subregion: string
+        appellation: string
+        distributor: string
+        notes: string
+        inventory_status: "In Stock" | "Out of Stock" | "Archived" | "TBD"
+        tags: string[]
+    }
 }

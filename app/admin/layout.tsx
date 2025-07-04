@@ -15,10 +15,10 @@ export default async function Layout({children}:{children:React.ReactNode}) {
 
     return (
         <Box>
-            {children}
             <Box sx={{position: 'absolute', width: '95%', height: '76vh', display: 'flex', justifyContent: 'right'}}>
                 <NewButton />
             </Box>
+            {children}
         </Box>
     )
 }
