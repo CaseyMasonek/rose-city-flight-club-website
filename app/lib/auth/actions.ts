@@ -56,7 +56,7 @@ export async function logout() {
     redirect('/login')
 }
 
-export async function signup(formState: SignupFormState, formData: FormData) {
+export async function signup(formData: FormData) {
     const data = Object.fromEntries(formData.entries())
 
     const password = data.password as string

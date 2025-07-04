@@ -12,18 +12,32 @@ import {
     FormControl
 } from "@mui/material";
 import { signup } from "@/app/lib/auth/actions";
-import { useActionState, useState } from "react";
+import {FormEvent, useActionState, useState} from "react";
 import { US_STATES } from "@/app/lib/constants/states";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {useRef} from "react";
+import {SignupFormState} from "@/app/lib/types/user-form-states";
 
 /**
  * Form for creating a user
  * @constructor
  */
 export default function SignupForm() {
-  const [state, action, pending] = useActionState(signup, undefined);
   const [isBillingAddressDifferent, setBillingAddressDifferent] = useState(false);
+  const [state, setState] = useState<SignupFormState>({});
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const formData = new FormData(formRef.current!);
+
+    const errors = await signup(formData)
+
+    setState(errors)
+  }
 
   return (
     <Box
@@ -32,7 +46,7 @@ export default function SignupForm() {
         width: "100%",
       }}
     >
-      <form action={action}>
+      <form onSubmit={(e) => handleSubmit(e)} ref={formRef}>
         <Stack spacing={2} className={"w-full"}>
           <TextField
             variant="outlined"
