@@ -9,14 +9,14 @@ import HeaderButtons from "@/app/ui/header/header-buttons";
 export default function LoggedInHeader({user}:{user:User}) {
     return (
         <Stack spacing={1}>
-            <Stack direction="row">
-                <Link href="/">
-                    <Image src="/logo_green.png" alt="logo" width={700} height={249} className={'w-25'} />
+            <Stack direction="row" sx={{ px: 3, height: "5vh" }}>
+                <Link href="/admin">
+                    <Image src="/logo_green.png" alt="logo" width={700} height={249} className={'w-34'} />
                 </Link>
                 <Stack direction="row" sx={{
                     display: "flex",
                     justifyContent: "right",
-                    width:"100%",
+                    width: "100%",
                 }} spacing={5}>
                     <HeaderButtons />
                     <HeaderAvatar user={user} />

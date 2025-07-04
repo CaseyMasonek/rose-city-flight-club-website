@@ -1,6 +1,6 @@
 "use client"
 
-import {Button, ButtonGroup} from "@mui/material";
+import {Box, Button, ButtonGroup} from "@mui/material";
 import {usePathname} from "next/navigation"
 import Link from "next/link";
 
@@ -14,14 +14,17 @@ export default function HeaderButtons() {
     const currentPage = usePathname()
 
     return (
-        <ButtonGroup variant="contained">
-            {pages.map((page) => (
-                <Button key={page.label} color={currentPage == page.path || (currentPage == "/" && page.label == "Wines") ? 'primary' : 'inherit'}>
-                    <Link href={page.path}>
-                        {page.label}
-                    </Link>
-                </Button>
-            ))}
-        </ButtonGroup>
+        <Box>
+            <ButtonGroup variant="contained">
+                {pages.map((page) => (
+                    <Button key={page.label} color={currentPage == page.path || (currentPage == "/" && page.label == "Wines") ? 'primary' : 'inherit'}>
+                        <Link href={page.path}>
+                            {page.label}
+                        </Link>
+                    </Button>
+                ))}
+            </ButtonGroup>
+        </Box>
+
     )
 }

@@ -25,8 +25,10 @@ export default function HeaderAvatar({user}:{user:User}) {
 
             <Avatar
                 onClick={() => setMenuOpen(true)}
-                ref={ref}>
-                <Button>
+                ref={ref}
+                sx={{ bgcolor: "#005154" }}
+            >
+                <Button sx={{ color: "#fff" }}>
                     {user.first_name[0]}
                 </Button>
             </Avatar>
