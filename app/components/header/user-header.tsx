@@ -6,7 +6,7 @@ import {User} from "@/app/lib/types/user";
 import HeaderAvatar from "@/app/components/header/header-avatar";
 import HeaderButtons from "@/app/components/header/header-buttons";
 
-export default function LoggedInHeader({user}:{user:User}) {
+export default function UserHeader({user}:{user:User}) {
     return (
         <Stack spacing={1}>
             <Stack direction="row" sx={{ px: 3, height: "5vh" }}>
@@ -18,21 +18,10 @@ export default function LoggedInHeader({user}:{user:User}) {
                     justifyContent: "right",
                     width: "100%",
                 }} spacing={5}>
-                    <HeaderButtons />
                     <HeaderAvatar user={user} />
                 </Stack>
             </Stack>
             <Divider />
         </Stack>
-    )
-}
-
-function LogoutButton() {
-    return (
-        <Box className="w-full">
-            <Button variant='outlined' color='primary' sx={{float:'right'}} onClick={logout} >
-                Log Out
-            </Button>
-        </Box>
     )
 }

@@ -1,6 +1,11 @@
 import { z } from 'zod'
 import validator from 'validator'
 
+const currentDate = new Date();
+const pastDate = new Date(currentDate);
+pastDate.setFullYear(pastDate.getFullYear() - 21);
+
+
 // Zod form validation
 export const UserFormSchema = z.object({
     first_name: z
@@ -91,6 +96,5 @@ export const UserFormSchema = z.object({
         .or(z.literal('')),
     birth_date: z
         .date()
-        .optional()
-        .or(z.literal('')),
+        .max(pastDate,{message: 'Must be at least 21 years old'})
 });

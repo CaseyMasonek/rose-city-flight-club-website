@@ -9,6 +9,7 @@ import {
   Autocomplete,
   Checkbox,
   FormControlLabel,
+    FormControl
 } from "@mui/material";
 import { signup } from "@/app/lib/auth/actions";
 import { useActionState, useState } from "react";
@@ -102,12 +103,19 @@ export default function SignupForm() {
           {state?.errors?.phone && <p>{state.errors.phone}</p>}
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-                label="Birth Date"
-                name="birth_date"
-            />
-            {state?.errors?.birth_date && <p>{state.errors.birth_date}</p>}
+              <DatePicker
+                  label="Birth Date"
+                  name="birth_date"
+
+                  slotProps={{
+                    textField: {
+                      required: true,
+                      error: state?.errors?.birth_date != null
+                    },
+                  }}
+              />
           </LocalizationProvider>
+          {state?.errors?.birth_date && <p>{state.errors.birth_date}</p>}
 
           <Typography>Delivery Address</Typography>
 

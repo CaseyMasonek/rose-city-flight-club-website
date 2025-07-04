@@ -80,6 +80,7 @@ export async function signup(formState: SignupFormState, formData: FormData) {
         billing_state: data.billing_state,
         billing_zip: data.billing_zip,
         billing_address: data.billing_address,
+        birth_date: new Date(data.birth_date as string),
     })
 
     const deliveryAddress = {
