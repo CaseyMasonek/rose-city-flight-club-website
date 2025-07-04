@@ -26,6 +26,7 @@ export type SignupFormState =
         billing_city?: string[]
         billing_zip?: string[]
         billing_state?: string[]
+        birth_date?: string[]
     }
     message?: string
 }

@@ -13,5 +13,6 @@ export interface Database {
         is_admin: boolean
         notes: string
         created_at: Generated<Date>
+        birth_date: Date
     }
 }

@@ -130,6 +130,7 @@ export async function signup(formState: SignupFormState, formData: FormData) {
         phone: data.phone as string,
         billing_address: billingAddress,
         delivery_address: deliveryAddress,
+        birth_date: new Date(data.birth_date as string),
         notes: '',
         is_admin: false
     }

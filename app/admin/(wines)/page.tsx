@@ -1,20 +1,14 @@
-import {Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {verifySession} from "@/app/lib/dal/users";
 import {redirect} from "next/navigation";
+import NewButton from "@/app/components/admin/new-button";
 
 export default async function Page() {
-    const session = await verifySession();
-    const is_admin = session?.is_admin;
-
-    if (is_admin == null) {
-        redirect('/login')
-    } else if (!is_admin) {
-        redirect('/')
-    }
-
     return (
-        <Typography>
-            Admin page
-        </Typography>
+        <Box>
+            <Typography>
+                Admin page
+            </Typography>
+        </Box>
     )
 }

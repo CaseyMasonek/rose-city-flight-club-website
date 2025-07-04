@@ -29,7 +29,7 @@ export default function HeaderAvatar({user}:{user:User}) {
                 sx={{ bgcolor: "#005154" }}
             >
                 <Button sx={{ color: "#fff" }}>
-                    {user.first_name[0]}
+                    {user.first_name[0] + user.last_name[0]}
                 </Button>
             </Avatar>
         </Box>

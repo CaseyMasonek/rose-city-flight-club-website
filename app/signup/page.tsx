@@ -1,5 +1,5 @@
 import {Box, Typography, Stack, Grid, Link} from '@mui/material';
-import SignupForm from "@/app/ui/signup/signup-form";
+import SignupForm from "@/app/components/signup/signup-form";
 import NextLink from "next/link"
 
 export default function Page() {

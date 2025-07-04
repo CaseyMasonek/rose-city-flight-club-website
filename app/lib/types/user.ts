@@ -10,6 +10,5 @@ export type User = {
     delivery_address: object | null,
     is_admin: boolean,
     notes: string | null,
+    birth_date: Date,
 }
-
-export type NewUser = Omit<User, 'id' | 'created_at' | 'is_admin'>

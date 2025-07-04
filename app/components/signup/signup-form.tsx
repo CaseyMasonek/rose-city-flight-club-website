@@ -6,11 +6,15 @@ import {
   Button,
   Typography,
   Box,
-  Autocomplete, Checkbox, FormControl, FormControlLabel,
+  Autocomplete,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import { signup } from "@/app/lib/auth/actions";
 import { useActionState, useState } from "react";
 import { US_STATES } from "@/app/lib/constants/states";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 /**
  * Form for creating a user
@@ -96,6 +100,14 @@ export default function SignupForm() {
             name="phone"
           />
           {state?.errors?.phone && <p>{state.errors.phone}</p>}
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+                label="Birth Date"
+                name="birth_date"
+            />
+            {state?.errors?.birth_date && <p>{state.errors.birth_date}</p>}
+          </LocalizationProvider>
 
           <Typography>Delivery Address</Typography>
 

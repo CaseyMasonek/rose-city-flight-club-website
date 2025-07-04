@@ -3,8 +3,8 @@ import {logout} from "@/app/lib/auth/actions";
 import Link from "next/link";
 import Image from "next/image";
 import {User} from "@/app/lib/types/user";
-import HeaderAvatar from "@/app/ui/header/header-avatar";
-import HeaderButtons from "@/app/ui/header/header-buttons";
+import HeaderAvatar from "@/app/components/header/header-avatar";
+import HeaderButtons from "@/app/components/header/header-buttons";
 
 export default function LoggedInHeader({user}:{user:User}) {
     return (

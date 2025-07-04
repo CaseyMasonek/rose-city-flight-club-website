@@ -1,5 +1,5 @@
 import {Box, Typography, Stack, Grid, Link} from '@mui/material';
-import LoginForm from "@/app/ui/login/login-form";
+import LoginForm from "@/app/components/login/login-form";
 import NextLink from "next/link"
 
 export default function Page() {

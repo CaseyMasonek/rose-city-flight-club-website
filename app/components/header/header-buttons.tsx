@@ -17,11 +17,11 @@ export default function HeaderButtons() {
         <Box>
             <ButtonGroup variant="contained">
                 {pages.map((page) => (
-                    <Button key={page.label} color={currentPage == page.path || (currentPage == "/" && page.label == "Wines") ? 'primary' : 'inherit'}>
-                        <Link href={page.path}>
+                    <Link href={page.path}>
+                        <Button key={page.label} color={currentPage == page.path || (currentPage == "/" && page.label == "Wines") ? 'primary' : 'inherit'}>
                             {page.label}
-                        </Link>
-                    </Button>
+                        </Button>
+                    </Link>
                 ))}
             </ButtonGroup>
         </Box>

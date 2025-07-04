@@ -89,4 +89,8 @@ export const UserFormSchema = z.object({
         .refine(validator.isMobilePhone,{message: 'Must be a valid phone number'})
         .optional()
         .or(z.literal('')),
+    birth_date: z
+        .date()
+        .optional()
+        .or(z.literal('')),
 });
