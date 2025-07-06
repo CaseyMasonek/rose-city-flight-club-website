@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {ThemeProvider, Typography} from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { CssBaseline, Stack, Box } from "@mui/material";
 import theme from "@/app/theme";
 import Header from "@/app/components/header/header";
 import Footer from "@/app/components/footer";
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
       >
       <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
+              <Analytics />
               <CssBaseline />
               <Box className={'m-5'} sx={{
                   display: "flex",
