@@ -19,6 +19,7 @@
     "@types/pg": "^8.15.4",
     "@types/validator": "^13.15.2",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "dayjs": "^1.11.13",
     "fs": "^0.0.1-security",
     "jose": "^6.0.11",

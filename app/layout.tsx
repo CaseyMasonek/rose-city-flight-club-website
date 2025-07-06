@@ -8,6 +8,7 @@ import theme from "@/app/theme";
 import Header from "@/app/components/header/header";
 import Footer from "@/app/components/footer";
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +37,6 @@ export default function RootLayout({
       >
       <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-              <Analytics />
               <CssBaseline />
               <Box className={'m-5'} sx={{
                   display: "flex",
@@ -52,6 +52,8 @@ export default function RootLayout({
                   </Box>
                   <Footer />
               </Box>
+              <Analytics />
+              <SpeedInsights />
           </ThemeProvider>
       </AppRouterCacheProvider>
       </body>
