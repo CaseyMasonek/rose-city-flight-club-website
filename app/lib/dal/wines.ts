@@ -8,3 +8,18 @@ export const getWines = cache(async () => {
         .selectAll()
         .execute()
 })
+
+export const getWine = cache(async (id:string) => {
+    return db
+        .selectFrom('wines')
+        .selectAll()
+        .where('id','=', id)
+        .executeTakeFirst()
+})
+
+export const deleteWine = cache(async (id:string) => {
+    return db
+        .deleteFrom('wines')
+        .where('id','=',id)
+        .execute()
+})

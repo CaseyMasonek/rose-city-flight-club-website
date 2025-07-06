@@ -9,11 +9,13 @@ import {
 } from 'material-react-table';
 import {Wine} from "@/app/lib/types/wines";
 import NextLink from 'next/link';
-import {Link} from '@mui/material'
-
+import {Box, Button, Link, MenuItem, Stack} from '@mui/material'
+import {handleDeleteWine} from "@/app/lib/admin/actions";
+import {useRouter} from "next/navigation"
 
 export default function WinesTable({data}:{data:Wine[]}) {
-    
+    const router = useRouter();
+
     const columns = useMemo<MRT_ColumnDef<Wine>[]>(() => [
         {
             accessorKey: 'id',
@@ -91,7 +93,53 @@ export default function WinesTable({data}:{data:Wine[]}) {
     const table = useMaterialReactTable({
         columns,
         data,
+        enableRowSelection: true,
     })
+
+    const handleDelete = () => {
+        table.getSelectedRowModel().flatRows.map((row) => {
+            handleDeleteWine(row.getValue('id'));
+
+            router.refresh()
+        });
+    }
+
+    const handleNew = () => {
+        router.push('/admin/new');
+    }
     
-    return <MaterialReactTable table={table} />
+    return (
+        <Box>
+            <Stack direction={'row'} sx={{
+                display: 'flex',
+                justifyContent: 'right',
+                mb: 2
+            }} spacing={2}>
+                <Button
+                    color="secondary"
+                    disabled={!table.getIsSomeRowsSelected()}
+                    variant="contained"
+                >
+                    Edit
+                </Button>
+                <Button
+                    color="error"
+                    disabled={!table.getIsSomeRowsSelected()}
+                    onClick={handleDelete}
+                    variant="contained"
+                >
+                    Delete
+                </Button>
+                <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={handleNew}
+                >
+                    New
+                </Button>
+            </Stack>
+
+            <MaterialReactTable table={table} />
+        </Box>
+    )
 }
