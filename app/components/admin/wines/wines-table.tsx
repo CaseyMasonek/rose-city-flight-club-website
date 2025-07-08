@@ -113,11 +113,11 @@ export default function WinesTable({data}:{data:Wine[]}) {
             <Stack direction={'row'} sx={{
                 display: 'flex',
                 justifyContent: 'right',
-                mb: 2
-            }} spacing={2}>
+                mb: 1
+            }} spacing={1}>
                 <Button
                     color="secondary"
-                    disabled={!table.getIsSomeRowsSelected()}
+                    disabled={!(table.getSelectedRowModel().flatRows.length == 1)}
                     variant="contained"
                 >
                     Edit

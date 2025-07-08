@@ -1,3 +1,5 @@
+"use server"
+
 import {Box, Typography} from "@mui/material";
 import WinesTable from "@/app/components/admin/wines/wines-table";
 import {getWines} from "@/app/lib/dal/wines";

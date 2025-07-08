@@ -22,7 +22,7 @@ export interface Database {
         type: string
         name: string
         producer: string
-        varietals: string[]
+        varietals: string
         designation: string
         vineyard: string
         country: string
@@ -32,6 +32,6 @@ export interface Database {
         distributor: string
         notes: string
         inventory_status: "In Stock" | "Out of Stock" | "Archived" | "TBD"
-        tags: string[]
+        tags: string
     }
 }

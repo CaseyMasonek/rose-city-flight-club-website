@@ -1,0 +1,16 @@
+export type wineFormOptions = {
+    name: string[]
+    vintage: string[]
+    type: string[]
+    producer: string[]
+    varietals: string[]
+    designation: string[]
+    vineyard: string[]
+    country: string[]
+    region: string[]
+    subregion: string[]
+    appellation: string[]
+    distributor: string[]
+    inventory_status: string[]
+    tags: string[]
+}

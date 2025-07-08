@@ -7,7 +7,6 @@ import {redirect} from "next/navigation";
 import {db} from "@/app/lib/db/client";
 import {Database} from "@/app/lib/db/schema";
 import {Insertable, ReferenceExpression} from "kysely";
-import {User} from "@/app/lib/types/user";
 
 /**
  * Make sure user is logged in
