@@ -16,7 +16,7 @@ import {useCallback, useRef, useState} from "react";
 import {wineFormOptions} from "@/app/lib/types/form-options";
 import {titleCase} from "@/app/lib/utils";
 import {useRouter} from "next/navigation";
-import {handleCreateWine} from "@/app/lib/admin/actions";
+import {handleCreateWine,uploadImage} from "@/app/lib/admin/actions";
 import {CloudUpload} from "@mui/icons-material";
 import {useDropzone} from "react-dropzone";
 
@@ -63,6 +63,14 @@ export default function WineForm({options}: {options: wineFormOptions}) {
             e.preventDefault()
         }
 
+        let image_url: string | null = null;
+
+        console.log(image ? image.name : null)
+
+        if (image) {
+            image_url = await uploadImage(image);
+        }
+
         const formData = new FormData(formRef.current!);
 
         await handleCreateWine({
@@ -81,6 +89,7 @@ export default function WineForm({options}: {options: wineFormOptions}) {
             producer: formData.get('producer') as string,
             inventory_status: formData.get('inventory_status') as "In Stock" | "Out of Stock" | "TBD" | "Archived",
             tags: JSON.stringify(selectedTags),
+            image_url: image_url
         })
 
         if (!addAnother) {

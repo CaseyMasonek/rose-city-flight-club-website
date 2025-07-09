@@ -1,6 +1,7 @@
 import {db} from "@/app/lib/db/client";
 import {Database} from "@/app/lib/db/schema";
 import {cache} from "react"
+import {supabase} from "@/app/lib/db/supabaseClient";
 
 export const getWines = cache(async () => {
     return db
@@ -40,6 +41,7 @@ export const createWine = cache(async (data:{
    producer: string,
    inventory_status: "In Stock" | "Out of Stock" | "TBD" | "Archived",
    tags: string,
+    image_url: string | null,
 }) => {
     return db
         .insertInto('wines')
