@@ -1,10 +1,11 @@
 "use client"
 
-import {Autocomplete, Box, Button, Stack, TextField} from "@mui/material";
-import {useRef} from "react";
+import {Autocomplete, Box, Button, Stack, TextareaAutosize, TextField} from "@mui/material";
+import {useRef, useState} from "react";
 import {wineFormOptions} from "@/app/lib/types/form-options";
 import {titleCase} from "@/app/lib/utils";
 import {useRouter} from "next/navigation";
+import {handleCreateWine} from "@/app/lib/admin/actions";
 
 export default function WineForm({options}: {options: wineFormOptions}) {
     const formRef = useRef<HTMLFormElement>(null);
@@ -28,13 +29,38 @@ export default function WineForm({options}: {options: wineFormOptions}) {
         { field: "tags", multiple: true }
     ]
 
+    const [selectedTags, setSelectedTags] = useState([]);
+    const [selectedVarietals, setSelectedVarietals] = useState([]);
+    const [addAnother, setAddAnother] = useState(false);
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
 
         const formData = new FormData(formRef.current!);
 
-        console.log(formData)
+        await handleCreateWine({
+            notes: formData.get('notes') as string,
+            name: formData.get('name') as string,
+            vintage: formData.get('vintage') as string,
+            type: formData.get('type') as string,
+            varietals: JSON.stringify(selectedVarietals),
+            country: formData.get('country') as string,
+            region: formData.get('region') as string,
+            subregion: formData.get('subregion') as string,
+            appellation: formData.get('appellation') as string,
+            vineyard: formData.get('vineyard') as string,
+            designation: formData.get('designation') as string,
+            distributor: formData.get('distributor') as string,
+            producer: formData.get('producer') as string,
+            inventory_status: formData.get('inventory_status') as "In Stock" | "Out of Stock" | "TBD" | "Archived",
+            tags: JSON.stringify(selectedTags),
+        })
+
+        if (addAnother) {
+            router.refresh()
+        } else {
+            router.push('/admin')
+        }
     }
 
     return (
@@ -59,20 +85,46 @@ export default function WineForm({options}: {options: wineFormOptions}) {
                         } options={options[field.field]}
                             key={i}
                           multiple={field.multiple}
+                            onChange={(e,newValue) => {
+                                if (!newValue) {
+                                    newValue = []
+                                }
+
+                                if (!Array.isArray(newValue)) {
+                                    newValue = [newValue]
+                                }
+
+                                switch (field.field) {
+                                    case "tags":
+                                        // @ts-ignore
+                                        setSelectedTags(newValue)
+                                        return
+                                    case "varietals":
+                                        // @ts-ignore
+                                        setSelectedVarietals(newValue)
+                                }
+                            }}
                         />
                     ))}
+                    <TextField
+                        name={"notes"}
+                        multiline={true}
+                        variant="filled"
+                        label={"Notes"}
+                    />
+
                     <Box sx={{
                         display: "flex",
                         justifyContent: "space-between",
                     }}>
                         <Button variant="contained" color="primary" type="submit" sx={{
                             width: "33%",
-                        }}>
+                        }} onClick={() => setAddAnother(false)}>
                             Save
                         </Button>
                         <Button variant="contained" color="inherit" type="submit" sx={{
                             width: "66%",
-                        }} onClick={() => router.refresh()}>
+                        }} onClick={() => setAddAnother(true)}>
                             Save and Add Another
                         </Button>
                     </Box>

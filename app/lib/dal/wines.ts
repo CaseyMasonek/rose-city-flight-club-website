@@ -23,3 +23,26 @@ export const deleteWine = cache(async (id:string) => {
         .where('id','=',id)
         .execute()
 })
+
+export const createWine = cache(async (data:{
+    notes: string;
+   name: string,
+   vintage: string,
+   type: string,
+   varietals: string,
+   country: string,
+   region: string,
+   subregion: string,
+   appellation: string,
+   vineyard: string,
+   designation: string,
+   distributor: string,
+   producer: string,
+   inventory_status: "In Stock" | "Out of Stock" | "TBD" | "Archived",
+   tags: string,
+}) => {
+    return db
+        .insertInto('wines')
+        .values(data)
+        .execute()
+})
