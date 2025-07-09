@@ -1,15 +1,31 @@
 "use client"
 
-import {Autocomplete, Box, Button, Stack, TextareaAutosize, TextField} from "@mui/material";
-import {useEffect, useRef, useState} from "react";
+import {
+    Autocomplete,
+    Box,
+    Button, Card, Chip,
+    IconButton,
+    Input, Paper,
+    Stack,
+    TextareaAutosize,
+    TextField,
+    Tooltip,
+    Typography
+} from "@mui/material";
+import {useCallback, useRef, useState} from "react";
 import {wineFormOptions} from "@/app/lib/types/form-options";
 import {titleCase} from "@/app/lib/utils";
 import {useRouter} from "next/navigation";
 import {handleCreateWine} from "@/app/lib/admin/actions";
+import {CloudUpload} from "@mui/icons-material";
+import {useDropzone} from "react-dropzone";
 
 export default function WineForm({options}: {options: wineFormOptions}) {
     const formRef = useRef<HTMLFormElement>(null);
-    const firstBox = useRef<HTMLInputElement>(null);
+    const firstBoxRef = useRef<HTMLInputElement>(null);
+    const imageUploadRef = useRef<HTMLInputElement>(null);
+
+    const [image, setImage] = useState<File | null>(null);
 
     const router = useRouter();
 
@@ -34,8 +50,14 @@ export default function WineForm({options}: {options: wineFormOptions}) {
     const [selectedVarietals, setSelectedVarietals] = useState([]);
     const [addAnother, setAddAnother] = useState(false);
 
+    const onDrop = useCallback((acceptedFiles:File[]) => {
+        setImage(acceptedFiles[0]);
+    }, [])
+
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        firstBox.current!.focus();
+        firstBoxRef.current!.focus();
 
         if (!addAnother) {
             e.preventDefault()
@@ -79,18 +101,18 @@ export default function WineForm({options}: {options: wineFormOptions}) {
                         <Autocomplete
                             freeSolo
                             renderInput={(params) =>
-                            <TextField
-                                {...params}
-                                variant={'filled'}
-                                label={titleCase(field.field)}
-                                name={field.field}
-                                id={field.field}
-                                ref={i == 0 ? firstBox : null}
-                            />
-                        } options={options[field.field]}
+                                <TextField
+                                    {...params}
+                                    variant={'filled'}
+                                    label={titleCase(field.field)}
+                                    name={field.field}
+                                    id={field.field}
+                                    ref={i == 0 ? firstBoxRef : null}
+                                />
+                            } options={options[field.field]}
                             key={i}
-                          multiple={field.multiple}
-                            onChange={(e,newValue) => {
+                            multiple={field.multiple}
+                            onChange={(e, newValue) => {
                                 if (!newValue) {
                                     newValue = []
                                 }
@@ -117,6 +139,49 @@ export default function WineForm({options}: {options: wineFormOptions}) {
                         variant="filled"
                         label={"Notes"}
                     />
+
+                    {!image &&
+                    <Card {...getRootProps()}
+                        variant="outlined"
+                        color="primary"
+                        sx={{
+                            width: "100%",
+                            textAlign: "center",
+                            height: "100px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            background: isDragActive ? "rgba(0,81,84,0.3)" : "white",
+                            borderColor: isDragActive ? "rgba(0,81,84,1)" : "auto",
+                        }}
+                    >
+                        <input {...getInputProps()} />
+                        <CloudUpload />&nbsp;&nbsp;
+                        {
+                            isDragActive ?
+                                <Typography>Drop the image here ...</Typography> :
+                                <Typography>Upload Image</Typography>
+                        }
+                    </Card>
+                    }
+                    {image &&
+                    <Card
+                        variant="outlined"
+                        color="primary"
+                        sx={{
+                            width: "100%",
+                            textAlign: "center",
+                            height: "100px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            background: "rgba(0,81,84,0.3)",
+                            borderColor: "rgba(0,81,84,1)",
+                        }}
+                    >
+                        <Chip label={image.name} onDelete={() => {setImage(null)}} />
+                    </Card>
+                    }
 
                     <Box sx={{
                         display: "flex",
