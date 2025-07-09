@@ -15,7 +15,7 @@ export default async function Layout({children}:{children:React.ReactNode}) {
 
     return (
         <Box>
-            <Box sx={{position: 'absolute', width: '95%', height: '76vh', display: 'flex', justifyContent: 'right'}}>
+            <Box sx={{position: 'fixed', right:30, bottom:50, display: 'flex', justifyContent: 'right', height: 'auto', zIndex: 99}}>
                 <NewButton />
             </Box>
             {children}

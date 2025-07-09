@@ -1,7 +1,7 @@
 "use client"
 
 import {Autocomplete, Box, Button, Stack, TextareaAutosize, TextField} from "@mui/material";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {wineFormOptions} from "@/app/lib/types/form-options";
 import {titleCase} from "@/app/lib/utils";
 import {useRouter} from "next/navigation";
@@ -9,6 +9,7 @@ import {handleCreateWine} from "@/app/lib/admin/actions";
 
 export default function WineForm({options}: {options: wineFormOptions}) {
     const formRef = useRef<HTMLFormElement>(null);
+    const firstBox = useRef<HTMLInputElement>(null);
 
     const router = useRouter();
 
@@ -34,7 +35,11 @@ export default function WineForm({options}: {options: wineFormOptions}) {
     const [addAnother, setAddAnother] = useState(false);
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
+        firstBox.current!.focus();
+
+        if (!addAnother) {
+            e.preventDefault()
+        }
 
         const formData = new FormData(formRef.current!);
 
@@ -56,9 +61,7 @@ export default function WineForm({options}: {options: wineFormOptions}) {
             tags: JSON.stringify(selectedTags),
         })
 
-        if (addAnother) {
-            router.refresh()
-        } else {
+        if (!addAnother) {
             router.push('/admin')
         }
     }
@@ -81,6 +84,8 @@ export default function WineForm({options}: {options: wineFormOptions}) {
                                 variant={'filled'}
                                 label={titleCase(field.field)}
                                 name={field.field}
+                                id={field.field}
+                                ref={i == 0 ? firstBox : null}
                             />
                         } options={options[field.field]}
                             key={i}
