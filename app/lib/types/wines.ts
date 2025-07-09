@@ -19,5 +19,5 @@ export type Wine = {
     notes: string
     inventory_status: "In Stock" | "Out of Stock" | "Archived" | "TBD"
     tags: string
-    image_url: string
+    image_url: string | null
 }
