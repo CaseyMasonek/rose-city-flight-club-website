@@ -9,28 +9,29 @@ import {
 } from 'material-react-table';
 import {Wine} from "@/app/lib/types/wines";
 import NextLink from 'next/link';
-import {Box, Button, Link, MenuItem, Stack} from '@mui/material'
+import {Box, Button, Card, Chip, Link, MenuItem, Modal, Stack, Typography} from '@mui/material'
 import {handleDeleteWine} from "@/app/lib/admin/actions";
 import {useRouter} from "next/navigation"
+import {useState} from "react";
 
 export default function WinesTable({data}:{data:Wine[]}) {
     const router = useRouter();
 
     const columns = useMemo<MRT_ColumnDef<Wine>[]>(() => [
         {
-            accessorKey: 'id',
+            accessorKey:'id',
             header: 'ID',
-            Cell: ({renderedCellValue}) => (
-                <NextLink href={`/admin/${renderedCellValue}`}>
+        },
+        {
+            accessorKey: 'name',
+            header: 'Name',
+            Cell: ({renderedCellValue,row}) => (
+                <NextLink href={`/admin/${row.getValue('id')}`}>
                     <Link>
                         {renderedCellValue}
                     </Link>
                 </NextLink>
             )
-        },
-        {
-            accessorKey: 'name',
-            header: 'Name'
         },
         {
             accessorKey: 'vintage',
@@ -50,7 +51,12 @@ export default function WinesTable({data}:{data:Wine[]}) {
         },
         {
             accessorKey: 'varietals',
-            header: 'Varietals'
+            header: 'Varietals',
+            Cell: (cell) => (
+                <Box>
+                    {JSON.parse(cell.cell.getValue!()).map((varietal:string) => <Chip label={varietal} />)}
+                </Box>
+            )
         },
         {
             accessorKey: 'designation',
@@ -78,7 +84,13 @@ export default function WinesTable({data}:{data:Wine[]}) {
         },
         {
             accessorKey: 'notes',
-            header: 'Notes'
+            header: 'Notes',
+            Cell: ({cell}) => (
+                <Typography>
+                    {cell.getValue().slice(0,25)}
+                    {cell.getValue().length > 30 && <>...</>}
+                </Typography>
+            )
         },
         {
             accessorKey: 'inventory_status',
@@ -86,7 +98,12 @@ export default function WinesTable({data}:{data:Wine[]}) {
         },
         {
             accessorKey: 'tags',
-            header: 'Tags'
+            header: 'Tags',
+            Cell: (cell) => (
+                <Box>
+                    {JSON.parse(cell.cell.getValue!()).map((tag:string) => <Chip label={tag} />)}
+                </Box>
+            )
         },
     ],[])
 
@@ -94,11 +111,16 @@ export default function WinesTable({data}:{data:Wine[]}) {
         columns,
         data,
         enableRowSelection: true,
+        initialState: { columnVisibility: { id: false } },
     })
 
     const handleDelete = () => {
         table.getSelectedRowModel().flatRows.map((row) => {
+            setModalOpen(false);
+
             handleDeleteWine(row.getValue('id'));
+
+            table.setRowSelection({})
 
             router.refresh()
         });
@@ -107,9 +129,30 @@ export default function WinesTable({data}:{data:Wine[]}) {
     const handleNew = () => {
         router.push('/admin/new');
     }
+
+    const [modalOpen, setModalOpen] = useState(false);
     
     return (
         <Box>
+            <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+                <Box sx={{width:'100%',height:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+                    <Card sx={{ height: 'fit', width: '30%', p:2 }}>
+                        <Typography variant={'h6'}>
+                            Are you sure you want to delete this wine?
+                        </Typography>
+                        <Box sx={{width:'100%',display:'flex',justifyContent:'space-around',alignItems:'center'}}>
+                            <Button onClick={handleDelete} variant={"contained"} color={'error'} sx={{width:'33%'}}>
+                                Delete wine
+                            </Button>
+                            <Button onClick={() => setModalOpen(false)} variant={"contained"} color={'inherit'} sx={{width:'66%'}}>
+                                Nevermind :)
+                            </Button>
+                        </Box>
+                    </Card>
+                </Box>
+            </Modal>
+
+
             <Stack direction={'row'} sx={{
                 display: 'flex',
                 justifyContent: 'right',
@@ -125,7 +168,7 @@ export default function WinesTable({data}:{data:Wine[]}) {
                 <Button
                     color="error"
                     disabled={!table.getIsSomeRowsSelected()}
-                    onClick={handleDelete}
+                    onClick={() => setModalOpen(true)}
                     variant="contained"
                 >
                     Delete

@@ -19,6 +19,8 @@ import {useRouter} from "next/navigation";
 import {handleCreateWine,uploadImage} from "@/app/lib/admin/actions";
 import {CloudUpload} from "@mui/icons-material";
 import {useDropzone} from "react-dropzone";
+import {Database} from "@/app/lib/db/schema";
+import {Wine} from "@/app/lib/types/wines";
 
 export default function WineForm({options}: {options: wineFormOptions}) {
     const formRef = useRef<HTMLFormElement>(null);
