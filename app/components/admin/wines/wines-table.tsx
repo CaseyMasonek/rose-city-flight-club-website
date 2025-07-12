@@ -52,9 +52,9 @@ export default function WinesTable({data}:{data:Wine[]}) {
         {
             accessorKey: 'varietals',
             header: 'Varietals',
-            Cell: (cell) => (
+            Cell: ({cell}) => (
                 <Box>
-                    {JSON.parse(cell.cell.getValue!()).map((varietal:string) => <Chip label={varietal} />)}
+                    {JSON.parse((cell.getValue() as string)).map((varietal:string) => <Chip label={varietal} />)}
                 </Box>
             )
         },
@@ -87,8 +87,8 @@ export default function WinesTable({data}:{data:Wine[]}) {
             header: 'Notes',
             Cell: ({cell}) => (
                 <Typography>
-                    {cell.getValue().slice(0,25)}
-                    {cell.getValue().length > 30 && <>...</>}
+                    {(cell.getValue() as string).slice(0,25)}
+                    {(cell.getValue() as string).length > 30 && <>...</>}
                 </Typography>
             )
         },
@@ -99,9 +99,9 @@ export default function WinesTable({data}:{data:Wine[]}) {
         {
             accessorKey: 'tags',
             header: 'Tags',
-            Cell: (cell) => (
+            Cell: ({cell}) => (
                 <Box>
-                    {JSON.parse(cell.cell.getValue!()).map((tag:string) => <Chip label={tag} />)}
+                    {JSON.parse((cell.getValue() as string)).map((tag:string) => <Chip label={tag} />)}
                 </Box>
             )
         },
