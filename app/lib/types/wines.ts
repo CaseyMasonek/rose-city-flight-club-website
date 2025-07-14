@@ -21,3 +21,22 @@ export type Wine = {
     tags: string
     image_url: string | null
 }
+
+export type wineFormData = {
+  notes: string;
+  name: string;
+  vintage: string;
+  type: string;
+  varietals: string;
+  country: string;
+  region: string;
+  subregion: string;
+  appellation: string;
+  vineyard: string;
+  designation: string;
+  distributor: string;
+  producer: string;
+  inventory_status: "In Stock" | "Out of Stock" | "TBD" | "Archived";
+  tags: string;
+  image_url: string | null;
+};

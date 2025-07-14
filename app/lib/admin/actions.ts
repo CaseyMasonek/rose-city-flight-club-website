@@ -1,7 +1,8 @@
 "use server"
 
-import {createWine, deleteWine} from "@/app/lib/dal/wines"
+import {createWine, deleteWine, updateWine} from "@/app/lib/dal/wines"
 import { supabase } from '@/app/lib/db/supabaseClient';
+import { wineFormData } from "../types/wines";
 
 export async function handleDeleteWine(id:string):Promise<void> {
     await deleteWine(id)
@@ -23,23 +24,10 @@ export async function uploadImage(file: File) {
     return data.path; // save this in your Postgres DB
 }
 
-export async function handleCreateWine (data:{
-    notes: string;
-    name: string,
-    vintage: string,
-    type: string,
-    varietals: string,
-    country: string,
-    region: string,
-    subregion: string,
-    appellation: string,
-    vineyard: string,
-    designation: string,
-    distributor: string,
-    producer: string,
-    inventory_status: "In Stock" | "Out of Stock" | "TBD" | "Archived",
-    tags: string,
-    image_url: string | null,
-}) {
+export async function handleCreateWine (data:wineFormData) {
     await createWine(data)
+}
+
+export async function handleUpdateWine(data:wineFormData,id:string) {
+    await updateWine(data,id)
 }

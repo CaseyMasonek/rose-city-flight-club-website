@@ -11,3 +11,13 @@ export function uniqueStrings(arrays: string[][]): string[] {
     const unique = new Set(flat); // Use Set to deduplicate
     return Array.from(unique); // Convert Set back to array
 }
+
+export const urlToObject= async(image:string) => {
+  const response = await fetch(image);
+  const blob = await response.blob();
+  const file = new File([blob], 'image.jpg', {type: blob.type});
+  
+  console.log(file)
+
+  return file
+}

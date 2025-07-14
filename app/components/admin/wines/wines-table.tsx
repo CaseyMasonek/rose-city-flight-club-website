@@ -130,6 +130,12 @@ export default function WinesTable({data}:{data:Wine[]}) {
         router.push('/admin/new');
     }
 
+    const handleEdit = () => {
+        const id = table.getSelectedRowModel().flatRows[0].getValue('id')
+
+        router.push(`/admin/edit/${id}`)
+    }
+
     const [modalOpen, setModalOpen] = useState(false);
     
     return (
@@ -162,6 +168,7 @@ export default function WinesTable({data}:{data:Wine[]}) {
                     color="secondary"
                     disabled={!(table.getSelectedRowModel().flatRows.length == 1)}
                     variant="contained"
+                    onClick={handleEdit}
                 >
                     Edit
                 </Button>
