@@ -1,19 +1,30 @@
-"use server"
-
-import {Box, Typography} from "@mui/material";
-import WinesTable from "@/app/components/admin/wines/wines-table";
-import {getWines} from "@/app/lib/dal/wines";
+import {Box, CircularProgress, Typography} from "@mui/material";
+import WinesTableWrapper from "@/app/components/admin/wines/wines-table-wrapper";
+import { Suspense } from "react";
 
 
-export default async function Page() {
-    const wines = await getWines();
-
+export default function Page() {
     return (
-        <Box>
+        <Box sx={{
+            width: "100%",
+            height: "100%"
+        }}>
             <Typography variant={'h3'}>
                 All Wines
             </Typography>
-            <WinesTable data={wines} />
+            <Suspense fallback={(
+                <Box sx={{
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}>
+                    <CircularProgress />
+                </Box>
+            )}>
+                <WinesTableWrapper />
+            </Suspense>
         </Box>
     )
 }

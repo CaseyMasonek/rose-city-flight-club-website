@@ -38,16 +38,12 @@ export default function WinesTable({data}:{data:Wine[]}) {
             header: 'Vintage'
         },
         {
-            accessorKey: 'distributor',
-            header: 'Distributor'
+            accessorKey: 'producer',
+            header: 'Producer'
         },
         {
             accessorKey: 'type',
             header: 'Type'
-        },
-        {
-            accessorKey: 'producer',
-            header: 'Producer'
         },
         {
             accessorKey: 'varietals',
@@ -57,14 +53,6 @@ export default function WinesTable({data}:{data:Wine[]}) {
                     {JSON.parse((cell.getValue() as string)).map((varietal:string) => <Chip label={varietal} />)}
                 </Box>
             )
-        },
-        {
-            accessorKey: 'designation',
-            header: 'Designation'
-        },
-        {
-            accessorKey: 'vineyard',
-            header: 'Vineyard'
         },
         {
             accessorKey: 'country',
@@ -83,14 +71,16 @@ export default function WinesTable({data}:{data:Wine[]}) {
             header: 'Appellation'
         },
         {
-            accessorKey: 'notes',
-            header: 'Notes',
-            Cell: ({cell}) => (
-                <Typography>
-                    {(cell.getValue() as string).slice(0,25)}
-                    {(cell.getValue() as string).length > 30 && <>...</>}
-                </Typography>
-            )
+            accessorKey: 'vineyard',
+            header: 'Vineyard'
+        },
+        {
+            accessorKey: 'designation',
+            header: 'Designation'
+        },
+        {
+            accessorKey: 'distributor',
+            header: 'Distributor'
         },
         {
             accessorKey: 'inventory_status',
@@ -103,6 +93,16 @@ export default function WinesTable({data}:{data:Wine[]}) {
                 <Box>
                     {JSON.parse((cell.getValue() as string)).map((tag:string) => <Chip label={tag} />)}
                 </Box>
+            )
+        },
+        {
+            accessorKey: 'notes',
+            header: 'Notes',
+            Cell: ({cell}) => (
+                <Typography>
+                    {(cell.getValue() as string).slice(0,25)}
+                    {(cell.getValue() as string).length > 30 && <>...</>}
+                </Typography>
             )
         },
     ],[])

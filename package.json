@@ -28,7 +28,7 @@
     "kysely": "^0.28.2",
     "kysely-postgres-js": "^2.0.0",
     "material-react-table": "^3.2.1",
-    "next": "15.3.4",
+    "next": "^15.4.2-canary.0",
     "perf_hooks": "^0.0.1",
     "pg": "^8.16.3",
     "postgres": "^3.4.7",

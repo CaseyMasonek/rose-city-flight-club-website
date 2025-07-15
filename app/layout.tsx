@@ -25,6 +25,8 @@ export const metadata: Metadata = {
   description: "Rose City Flight Club",
 };
 
+export const experimental_ppr = true
+
 export default function RootLayout({
   children,
 }: Readonly<{

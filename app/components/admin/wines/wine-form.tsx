@@ -6,13 +6,8 @@ import {
   Button,
   Card,
   Chip,
-  IconButton,
-  Input,
-  Paper,
   Stack,
-  TextareaAutosize,
   TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -27,7 +22,6 @@ import {
 import { CloudUpload } from "@mui/icons-material";
 import { useDropzone } from "react-dropzone";
 import { Wine } from "@/app/lib/types/wines";
-import { createWine } from "@/app/lib/dal/wines";
 
 export default function WineForm({
   options,
@@ -51,6 +45,7 @@ export default function WineForm({
   const fields: { field: keyof wineFormOptions; multiple: boolean }[] = [
     { field: "name", multiple: false },
     { field: "vintage", multiple: false },
+    { field: "producer", multiple: false },
     { field: "type", multiple: false },
     { field: "varietals", multiple: true },
     { field: "country", multiple: false },
@@ -60,7 +55,6 @@ export default function WineForm({
     { field: "vineyard", multiple: false },
     { field: "designation", multiple: false },
     { field: "distributor", multiple: false },
-    { field: "producer", multiple: false },
     { field: "inventory_status", multiple: false },
     { field: "tags", multiple: true },
   ];
@@ -259,23 +253,25 @@ export default function WineForm({
               color="primary"
               type="submit"
               sx={{
-                width: "33%",
+                width: id ? "100%" : "33%",
               }}
               onClick={() => setAddAnother(false)}
             >
               Save
             </Button>
-            <Button
-              variant="contained"
-              color="inherit"
-              type="submit"
-              sx={{
-                width: "66%",
-              }}
-              onClick={() => setAddAnother(true)}
-            >
-              Save and Add Another
-            </Button>
+            {!id && (
+              <Button
+                variant="contained"
+                color="inherit"
+                type="submit"
+                sx={{
+                  width: "66%",
+                }}
+                onClick={() => setAddAnother(true)}
+              >
+                Save and Add Another
+              </Button>
+            )}
           </Box>
         </Stack>
       </form>
