@@ -112,6 +112,9 @@ export default function WinesTable({data}:{data:Wine[]}) {
         data,
         enableRowSelection: true,
         initialState: { columnVisibility: { id: false } },
+        enableFacetedValues: true,
+        enableStickyHeader: true,
+        enableStickyFooter: true,
     })
 
     const handleDelete = () => {
