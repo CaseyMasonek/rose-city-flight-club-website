@@ -170,7 +170,15 @@ export default function WineForm({
         width: "100%",
       }}
     >
-      <form onSubmit={(e) => handleSubmit(e)} ref={formRef}>
+      <form
+        onKeyDown={(e) => {
+          if (e.code == "Enter") {
+            e.preventDefault();
+          }
+        }}
+        onSubmit={(e) => handleSubmit(e)}
+        ref={formRef}
+      >
         <Stack spacing={2} className={"w-full"}>
           {fields.map((field, i) => (
             <Autocomplete
