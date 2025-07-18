@@ -41,20 +41,26 @@ export default async function Page({params}:{params:Promise<{id : string}>}) {
         tags: uniqueTags
     }
 
-    let file : File | undefined = undefined
+    let frontFile : File | undefined = undefined
 
     if (wine.image_url) {
         const signedUrl = await getImage(wine.image_url)
-        file = await urlToObject(signedUrl)
+        frontFile = await urlToObject(signedUrl)
     }
 
+    let backFile : File | undefined = undefined
+
+    if (wine.back_image_url) {
+        const signedUrl = await getImage(wine.back_image_url)
+        backFile = await urlToObject(signedUrl)
+    }
     return (
         <Box sx={{
             width: '100%',
             display: 'flex',
             justifyContent: 'center'
         }}>
-            <WineForm options={options} data={wine} defaultImage={file} id={wine.id} />
+            <WineForm options={options} data={wine} defaultFrontImage={frontFile} defaultBackImage={backFile} id={wine.id} />
         </Box>
     )
 }
