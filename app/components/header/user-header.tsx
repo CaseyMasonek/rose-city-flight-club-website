@@ -1,10 +1,8 @@
-import {Box, Button, Divider, Stack, Typography} from "@mui/material";
-import {logout} from "@/app/lib/auth/actions";
+import {Divider, Stack} from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
 import {User} from "@/app/lib/types/user";
 import HeaderAvatar from "@/app/components/header/header-avatar";
-import HeaderButtons from "@/app/components/header/header-buttons";
 
 export default function UserHeader({user}:{user:User}) {
     return (

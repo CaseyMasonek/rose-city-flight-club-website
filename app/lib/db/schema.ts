@@ -34,5 +34,6 @@ export interface Database {
         inventory_status: "In Stock" | "Out of Stock" | "Archived" | "TBD"
         tags: string
         image_url: string | null
+        back_image_url: string | null
     }
 }

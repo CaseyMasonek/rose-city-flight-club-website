@@ -20,6 +20,7 @@ export type Wine = {
     inventory_status: "In Stock" | "Out of Stock" | "Archived" | "TBD"
     tags: string
     image_url: string | null
+    back_image_url: string | null
 }
 
 export type WineFormData = {
@@ -39,4 +40,5 @@ export type WineFormData = {
   inventory_status: "In Stock" | "Out of Stock" | "TBD" | "Archived";
   tags: string;
   image_url: string | null;
+  back_image_url: string | null;
 };
