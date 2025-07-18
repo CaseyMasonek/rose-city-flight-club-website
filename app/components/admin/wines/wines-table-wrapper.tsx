@@ -8,6 +8,6 @@ export default async function WinesTableWrapper() {
     const wines = await getWines();
 
     return (
-            <WinesTable data={wines} />
+        <WinesTable data={wines} />
     )
 }

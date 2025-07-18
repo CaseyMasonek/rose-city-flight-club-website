@@ -21,7 +21,7 @@ import {
 } from "@/app/lib/admin/actions";
 import { CloudUpload } from "@mui/icons-material";
 import { useDropzone } from "react-dropzone";
-import { Wine } from "@/app/lib/types/wines";
+import { Wine, WineFormData } from "@/app/lib/types/wines";
 
 export default function WineForm({
   options,
@@ -36,28 +36,10 @@ export default function WineForm({
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const firstBoxRef = useRef<HTMLInputElement>(null);
-  const imageUploadRef = useRef<HTMLInputElement>(null);
 
   const [image, setImage] = useState<File | null>(null);
 
   const router = useRouter();
-
-  const fields: { field: keyof wineFormOptions; multiple: boolean }[] = [
-    { field: "name", multiple: false },
-    { field: "vintage", multiple: false },
-    { field: "producer", multiple: false },
-    { field: "type", multiple: false },
-    { field: "varietals", multiple: true },
-    { field: "country", multiple: false },
-    { field: "region", multiple: false },
-    { field: "subregion", multiple: false },
-    { field: "appellation", multiple: false },
-    { field: "vineyard", multiple: false },
-    { field: "designation", multiple: false },
-    { field: "distributor", multiple: false },
-    { field: "inventory_status", multiple: false },
-    { field: "tags", multiple: true },
-  ];
 
   const [selectedTags, setSelectedTags] = useState(
     data?.tags ? JSON.parse(data.tags) : []
@@ -77,16 +59,56 @@ export default function WineForm({
     }
   }, [defaultImage]);
 
+  const fields: {
+    field: keyof wineFormOptions;
+    multiple: boolean;
+    multiVal?: string[];
+  }[] = [
+    { field: "name", multiple: false },
+    { field: "vintage", multiple: false },
+    { field: "producer", multiple: false },
+    { field: "type", multiple: false },
+    { field: "varietals", multiple: true, multiVal: selectedVarietals },
+    { field: "country", multiple: false },
+    { field: "region", multiple: false },
+    { field: "subregion", multiple: false },
+    { field: "appellation", multiple: false },
+    { field: "vineyard", multiple: false },
+    { field: "designation", multiple: false },
+    { field: "distributor", multiple: false },
+    { field: "inventory_status", multiple: false },
+    { field: "tags", multiple: true, multiVal: selectedTags },
+  ];
+
+  const emptyForm: Wine = {
+    id: "",
+    created_at: new Date(),
+    notes: "",
+    name: "",
+    vintage: "",
+    type: "",
+    varietals: "",
+    country: "",
+    region: "",
+    subregion: "",
+    appellation: "",
+    vineyard: "",
+    designation: "",
+    distributor: "",
+    producer: "",
+    inventory_status: "TBD", // or any other default value
+    tags: "",
+    image_url: null,
+  };
+
+  const [formValues, setFormValues] = useState<Wine>(data ? data : emptyForm);
+
   /**
    * Create or update wine on form submit
    * @param {React.FormEvent<HTMLFormElement>} e
    */
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    firstBoxRef.current!.focus();
-
-    if (!addAnother) {
-      e.preventDefault();
-    }
+    e.preventDefault();
 
     let image_url: string | null = null;
 
@@ -96,7 +118,9 @@ export default function WineForm({
       image_url = await uploadImage(image);
     }
 
-    const formData = new FormData(formRef.current!);
+    const form = formRef.current!;
+
+    const formData = new FormData(form);
 
     const data = {
       notes: formData.get("notes") as string,
@@ -129,6 +153,13 @@ export default function WineForm({
 
     if (!addAnother) {
       router.push("/admin");
+    } else {
+      setFormValues(emptyForm);
+      setAddAnother(false);
+      setSelectedTags([]);
+      setSelectedVarietals([]);
+      setImage(null);
+      firstBoxRef.current!.focus();
     }
   }
 
@@ -151,6 +182,7 @@ export default function WineForm({
                     : [data[field.field] as string]
                   : []
               }
+              value={field.multiple ? field.multiVal : formValues![field.field]}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -158,7 +190,16 @@ export default function WineForm({
                   label={titleCase(field.field)}
                   name={field.field}
                   id={field.field}
-                  ref={i == 0 ? firstBoxRef : null}
+                  inputRef={i == 0 ? firstBoxRef : null}
+                  className={i.toString()}
+                  value={formValues[field.field]}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    setFormValues((prevState) => ({
+                      ...prevState!,
+                      [name]: value,
+                    }));
+                  }}
                 />
               )}
               options={options[field.field]}
@@ -167,6 +208,14 @@ export default function WineForm({
               onChange={(_, newValue) => {
                 if (!newValue) {
                   newValue = [];
+                }
+
+                if (!field.multiple) {
+                  setFormValues((prevState) => ({
+                    ...prevState!,
+                    [field.field!]: newValue,
+                  }));
+                  console.log(formValues);
                 }
 
                 if (!Array.isArray(newValue)) {
@@ -181,6 +230,7 @@ export default function WineForm({
                   case "varietals":
                     // @ts-ignore
                     setSelectedVarietals(newValue);
+                    return;
                 }
               }}
             />
@@ -188,8 +238,16 @@ export default function WineForm({
           <TextField
             name={"notes"}
             multiline={true}
+            value={formValues.notes}
             variant="filled"
             label={"Notes"}
+            onChange={(e) => {
+              const { name, value } = e.target;
+              setFormValues((prevState) => ({
+                ...prevState!,
+                [name]: value,
+              }));
+            }}
           />
 
           {!image && (

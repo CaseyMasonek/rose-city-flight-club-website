@@ -22,7 +22,7 @@ export type Wine = {
     image_url: string | null
 }
 
-export type wineFormData = {
+export type WineFormData = {
   notes: string;
   name: string;
   vintage: string;
