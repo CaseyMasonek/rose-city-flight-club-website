@@ -5,7 +5,7 @@ export default async function Home() {
     const user = await getUser()
 
     return (
-          <Typography className={'text-2xl'}>
+          <Typography sx={{ fontSize: '1.5rem', fontWeight: 600, lineHeight: 1.33 }}>
               Hello, {user!.first_name}!
           </Typography>
     );

@@ -115,17 +115,21 @@ export default function WinesTable({data}:{data:Wine[]}) {
         enableFacetedValues: true,
         enableStickyHeader: true,
         enableStickyFooter: true,
+        globalFilterFn: 'contains',
     })
 
     const handleDelete = () => {
-        table.getSelectedRowModel().flatRows.map((row) => {
-            setModalOpen(false);
-
-            handleDeleteWine(row.getValue('id'));
-
+        table.getSelectedRowModel().flatRows.map(async(row) => {
             table.setRowSelection({})
 
             router.refresh()
+
+            setIsLoading(true);
+
+            handleDeleteWine(row.getValue('id')).then(() => {
+                setIsLoading(false);
+                setModalOpen(false);
+            })
         });
     }
 
@@ -140,6 +144,7 @@ export default function WinesTable({data}:{data:Wine[]}) {
     }
 
     const [modalOpen, setModalOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     
     return (
         <Box>
@@ -150,7 +155,7 @@ export default function WinesTable({data}:{data:Wine[]}) {
                             Are you sure you want to delete this wine?
                         </Typography>
                         <Box sx={{width:'100%',display:'flex',justifyContent:'space-around',alignItems:'center'}}>
-                            <Button onClick={handleDelete} variant={"contained"} color={'error'} sx={{width:'33%'}}>
+                            <Button onClick={handleDelete} variant={"contained"} color={'error'} sx={{width:'33%'}} loading={isLoading}>
                                 Delete wine
                             </Button>
                             <Button onClick={() => setModalOpen(false)} variant={"contained"} color={'inherit'} sx={{width:'66%'}}>

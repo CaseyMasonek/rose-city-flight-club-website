@@ -6,6 +6,9 @@ import {
   Button,
   Card,
   Chip,
+  FormControl,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -21,7 +24,7 @@ import {
 } from "@/app/lib/admin/actions";
 import { CloudUpload } from "@mui/icons-material";
 import { useDropzone } from "react-dropzone";
-import { Wine, WineFormData } from "@/app/lib/types/wines";
+import { Wine } from "@/app/lib/types/wines";
 
 export default function WineForm({
   options,
@@ -63,6 +66,7 @@ export default function WineForm({
     field: keyof wineFormOptions;
     multiple: boolean;
     multiVal?: string[];
+    dropdown?: boolean;
   }[] = [
     { field: "name", multiple: false },
     { field: "vintage", multiple: false },
@@ -76,7 +80,7 @@ export default function WineForm({
     { field: "vineyard", multiple: false },
     { field: "designation", multiple: false },
     { field: "distributor", multiple: false },
-    { field: "inventory_status", multiple: false },
+    { field: "inventory_status", multiple: false, dropdown: true },
     { field: "tags", multiple: true, multiVal: selectedTags },
   ];
 
@@ -181,67 +185,69 @@ export default function WineForm({
       >
         <Stack spacing={2} className={"w-full"}>
           {fields.map((field, i) => (
-            <Autocomplete
-              freeSolo
-              defaultValue={
-                data
-                  ? field.multiple
-                    ? JSON.parse(data[field.field])
-                    : [data[field.field] as string]
-                  : []
-              }
-              value={field.multiple ? field.multiVal : formValues![field.field]}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant={"filled"}
-                  label={titleCase(field.field)}
-                  name={field.field}
-                  id={field.field}
-                  inputRef={i == 0 ? firstBoxRef : null}
-                  className={i.toString()}
-                  value={formValues[field.field]}
-                  onChange={(e) => {
-                    const { name, value } = e.target;
-                    setFormValues((prevState) => ({
-                      ...prevState!,
-                      [name]: value,
-                    }));
+                <Autocomplete
+                  freeSolo
+                  defaultValue={
+                    data
+                      ? field.multiple
+                        ? JSON.parse(data[field.field])
+                        : [data[field.field] as string]
+                      : []
+                  }
+                  value={
+                    field.multiple ? field.multiVal : formValues![field.field]
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant={"filled"}
+                      label={titleCase(field.field)}
+                      name={field.field}
+                      id={field.field}
+                      inputRef={i == 0 ? firstBoxRef : null}
+                      className={i.toString()}
+                      value={formValues[field.field]}
+                      onChange={(e) => {
+                        const { name, value } = e.target;
+                        setFormValues((prevState) => ({
+                          ...prevState!,
+                          [name]: value,
+                        }));
+                      }}
+                    />
+                  )}
+                  options={options[field.field]}
+                  key={i}
+                  multiple={field.multiple}
+                  onChange={(_, newValue) => {
+                    if (!newValue) {
+                      newValue = [];
+                    }
+
+                    if (!field.multiple) {
+                      setFormValues((prevState) => ({
+                        ...prevState!,
+                        [field.field!]: newValue,
+                      }));
+                      console.log(formValues);
+                    }
+
+                    if (!Array.isArray(newValue)) {
+                      newValue = [newValue];
+                    }
+
+                    switch (field.field) {
+                      case "tags":
+                        // @ts-ignore
+                        setSelectedTags(newValue);
+                        return;
+                      case "varietals":
+                        // @ts-ignore
+                        setSelectedVarietals(newValue);
+                        return;
+                    }
                   }}
                 />
-              )}
-              options={options[field.field]}
-              key={i}
-              multiple={field.multiple}
-              onChange={(_, newValue) => {
-                if (!newValue) {
-                  newValue = [];
-                }
-
-                if (!field.multiple) {
-                  setFormValues((prevState) => ({
-                    ...prevState!,
-                    [field.field!]: newValue,
-                  }));
-                  console.log(formValues);
-                }
-
-                if (!Array.isArray(newValue)) {
-                  newValue = [newValue];
-                }
-
-                switch (field.field) {
-                  case "tags":
-                    // @ts-ignore
-                    setSelectedTags(newValue);
-                    return;
-                  case "varietals":
-                    // @ts-ignore
-                    setSelectedVarietals(newValue);
-                    return;
-                }
-              }}
-            />
           ))}
           <TextField
             name={"notes"}

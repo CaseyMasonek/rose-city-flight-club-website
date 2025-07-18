@@ -17,8 +17,8 @@ export default function LoginForm() {
             maxWidth: 600,
             width: '100%',
         }}>
-            <form action={action} className="">
-                <Stack spacing={2} className={'w-full'}>
+            <form action={action}>
+                <Stack spacing={2} sx={{ width: '100%' }}>
                     <TextField variant="outlined" label='Email' id='email' name='email' type='email' />
 
                     <TextField variant="outlined" error={(state?.errors?.password != null)} label='Password'
@@ -33,7 +33,7 @@ export default function LoginForm() {
                         }}>
                             Log In
                         </Button>
-                        <Link href='/signup' className={'w-full'}>
+                        <Link href='/signup' style={{ width: '100%' }}>
                             <Button variant="contained" color={'inherit'} sx={{
                                 width: '100%',
                             }}>

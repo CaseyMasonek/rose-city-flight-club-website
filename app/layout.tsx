@@ -40,7 +40,8 @@ export default function RootLayout({
       <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
               <CssBaseline />
-              <Box className={'m-5'} sx={{
+              <Box sx={{
+                  m: 5,
                   display: "flex",
                   flexDirection: 'column',
                   minHeight: '96vh',

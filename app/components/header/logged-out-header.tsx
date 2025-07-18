@@ -10,7 +10,7 @@ export default function LoggedOutHeader() {
             justifyContent: 'center',
         }}>
             <Link href="/">
-                <Image src="/logo_green.png" alt="logo" width={700} height={249} className={'w-75'} />
+                <Image src="/logo_green.png" alt="logo" width={700} height={249} style={{ width: 300 }} />
             </Link>
         </Box>
     )

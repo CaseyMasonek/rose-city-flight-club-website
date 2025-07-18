@@ -11,7 +11,7 @@ export default function AdminHeader({user}:{user:User}) {
         <Stack spacing={1}>
             <Stack direction="row" sx={{ px: 3, height: "5vh" }}>
                 <Link href="/admin">
-                    <Image src="/logo_green.png" alt="logo" width={700} height={249} className={'w-34'} />
+                    <Image src="/logo_green.png" alt="logo" width={700} height={249} style={{ width: 136 }} />
                 </Link>
                 <Stack direction="row" sx={{
                     display: "flex",
@@ -29,7 +29,7 @@ export default function AdminHeader({user}:{user:User}) {
 
 function LogoutButton() {
     return (
-        <Box className="w-full">
+        <Box sx={{ width: '100%' }}>
             <Button variant='outlined' color='primary' sx={{float:'right'}} onClick={logout} >
                 Log Out
             </Button>

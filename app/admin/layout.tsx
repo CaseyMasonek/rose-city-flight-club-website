@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import NewButton from "@/app/components/admin/new-button";
 import { verifySession } from "@/app/lib/dal/users";
 import { redirect } from "next/navigation";
 
