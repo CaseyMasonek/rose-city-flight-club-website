@@ -8,6 +8,7 @@ import {
   handleCreateWine,
   uploadImage,
   handleUpdateWine,
+  getWineImageUrls,
 } from "@/app/lib/admin/actions";
 import { Wine } from "@/app/lib/types/wines";
 import FileDrop from "../../common/file-drop";
@@ -107,6 +108,13 @@ export default function WineForm({
 
     let image_url: string | null = null;
     let back_image_url: string | null = null;
+
+
+    if (id) {
+      const {front, back} = (await getWineImageUrls(id))!;
+      if (front) image_url = front;
+      if (back) back_image_url = back;
+    }
 
     if (frontImage && frontImage != defaultFrontImage) {
       image_url = await uploadImage(frontImage);
