@@ -5,11 +5,10 @@ import {
     MaterialReactTable,
     useMaterialReactTable,
     type MRT_ColumnDef,
-    type MRT_Row
 } from 'material-react-table';
 import {Wine} from "@/app/lib/types/wines";
 import NextLink from 'next/link';
-import {Box, Button, Card, Chip, Link, MenuItem, Modal, Stack, Typography} from '@mui/material'
+import {Box, Button, Card, Chip, Link, Modal, Stack, Typography} from '@mui/material'
 import {handleDeleteWine} from "@/app/lib/admin/actions";
 import {useRouter} from "next/navigation"
 import {useState} from "react";
@@ -115,7 +114,8 @@ export default function WinesTable({data}:{data:Wine[]}) {
         enableFacetedValues: true,
         enableStickyHeader: true,
         enableStickyFooter: true,
-        globalFilterFn: 'contains',
+        globalFilterFn: "contains",
+        enableColumnOrdering: true,
     })
 
     const handleDelete = () => {

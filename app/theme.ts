@@ -1,15 +1,15 @@
-'use client'
+"use client";
 
-import { createTheme } from '@mui/material/styles';
-import {red, blue} from "@mui/material/colors";
+import { createTheme } from "@mui/material/styles";
+import { blue } from "@mui/material/colors";
 
 const theme = createTheme({
-    palette: {
-        primary: {
-          main: '#005154'
-        },
-        secondary: blue
+  palette: {
+    primary: {
+      main: "#005154",
     },
+    secondary: blue,
+  },
 });
 
 export default theme;

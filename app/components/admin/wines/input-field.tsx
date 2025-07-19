@@ -16,9 +16,7 @@ interface InputFieldProps {
   data?: any;
   index: number;
   firstBoxRef?: React.RefObject<HTMLInputElement | null>;
-  selectedTags?: string[];
   setSelectedTags?: (tags: string[]) => void;
-  selectedVarietals?: string[];
   setSelectedVarietals?: (varietals: string[]) => void;
 }
 
@@ -30,9 +28,7 @@ export default function InputField({
   data,
   index,
   firstBoxRef,
-  selectedTags,
   setSelectedTags,
-  selectedVarietals,
   setSelectedVarietals,
 }: InputFieldProps) {
   return (
