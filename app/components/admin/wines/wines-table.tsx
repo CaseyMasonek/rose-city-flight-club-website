@@ -5,6 +5,7 @@ import {
     MaterialReactTable,
     useMaterialReactTable,
     type MRT_ColumnDef,
+    type MRT_Row
 } from 'material-react-table';
 import {Wine} from "@/app/lib/types/wines";
 import NextLink from 'next/link';
@@ -25,11 +26,9 @@ export default function WinesTable({data}:{data:Wine[]}) {
             accessorKey: 'name',
             header: 'Name',
             Cell: ({renderedCellValue,row}) => (
-                <NextLink href={`/admin/${row.getValue('id')}`}>
-                    <Link>
-                        {renderedCellValue}
-                    </Link>
-                </NextLink>
+                <Link component={NextLink} href={`/admin/${row.getValue('id')}`}>
+                    {renderedCellValue}
+                </Link>
             )
         },
         {

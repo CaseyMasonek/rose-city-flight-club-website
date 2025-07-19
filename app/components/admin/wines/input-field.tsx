@@ -17,6 +17,8 @@ interface InputFieldProps {
   index: number;
   firstBoxRef?: React.RefObject<HTMLInputElement | null>;
   setSelectedTags?: (tags: string[]) => void;
+  selectedTags?: string[];
+  selectedVarietals?: string[];
   setSelectedVarietals?: (varietals: string[]) => void;
 }
 
