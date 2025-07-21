@@ -68,8 +68,18 @@ export default function WineForm({
     { field: "name", type: "autocomplete" },
     { field: "vintage", type: "dropdown" },
     { field: "producer", type: "autocomplete" },
-    { field: "type", type: "multiple", multiVal: selectedTypes, setMultiVal: setSelectedTypes },
-    { field: "varietals", type: "multiple", multiVal: selectedVarietals, setMultiVal: setSelectedVarietals },
+    {
+      field: "type",
+      type: "multiple",
+      multiVal: selectedTypes,
+      setMultiVal: setSelectedTypes,
+    },
+    {
+      field: "varietals",
+      type: "multiple",
+      multiVal: selectedVarietals,
+      setMultiVal: setSelectedVarietals,
+    },
     { field: "country", type: "autocomplete" },
     { field: "region", type: "autocomplete" },
     { field: "subregion", type: "autocomplete" },
@@ -78,7 +88,12 @@ export default function WineForm({
     { field: "designation", type: "autocomplete" },
     { field: "distributor", type: "autocomplete" },
     { field: "inventory_status", type: "dropdown" },
-    { field: "tags", type: "multiple", multiVal: selectedTags, setMultiVal: setSelectedTags },
+    {
+      field: "tags",
+      type: "multiple",
+      multiVal: selectedTags,
+      setMultiVal: setSelectedTags,
+    },
     { field: "wholesale_cost", type: "number" },
     { field: "retail_cost", type: "number" },
   ];
@@ -119,9 +134,8 @@ export default function WineForm({
     let image_url: string | null = null;
     let back_image_url: string | null = null;
 
-
     if (id) {
-      const {front, back} = (await getWineImageUrls(id))!;
+      const { front, back } = (await getWineImageUrls(id))!;
       if (front) image_url = front;
       if (back) back_image_url = back;
     }
@@ -152,8 +166,8 @@ export default function WineForm({
       designation: formData.get("designation") as string,
       distributor: formData.get("distributor") as string,
       producer: formData.get("producer") as string,
-      wholesale_cost: formData.get("wholesale_cost") as string || null,
-      retail_cost: formData.get("retail_cost") as string || null,
+      wholesale_cost: (formData.get("wholesale_cost") as string) || null,
+      retail_cost: (formData.get("retail_cost") as string) || null,
       inventory_status: formData.get("inventory_status") as
         | "In Stock"
         | "Out of Stock"
@@ -231,7 +245,7 @@ export default function WineForm({
 
           <FileDrop image={frontImage} setImage={setFrontImage} name="Front" />
           <FileDrop image={backImage} setImage={setBackImage} name="Back" />
-          
+
           <Box
             sx={{
               display: "flex",
