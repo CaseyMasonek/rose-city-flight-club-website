@@ -16,6 +16,7 @@ type InputFieldProps = {
   index: number;
   firstBoxRef?: React.RefObject<HTMLInputElement | null>;
   setMultiVal?: (values: string[]) => void;
+  multiVal?: string[];
 };
 
 export default function InputField({
@@ -27,6 +28,7 @@ export default function InputField({
   index,
   firstBoxRef,
   setMultiVal,
+  multiVal,
 }: InputFieldProps) {
 
   if (field.type === "number") {
