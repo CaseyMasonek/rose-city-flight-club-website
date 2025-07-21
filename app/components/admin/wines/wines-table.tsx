@@ -81,6 +81,37 @@ export default function WinesTable({data}:{data:Wine[]}) {
             header: 'Distributor'
         },
         {
+            accessorKey: 'wholesale_cost',
+            header: 'Wholesale Cost',
+            Cell: ({ cell }) => (
+                <Typography>
+                    {cell.getValue() ? `$${parseFloat(cell.getValue() as string).toFixed(2)}` : '-'}
+                </Typography>
+            )
+        },
+        {
+            accessorKey: 'retail_cost',
+            header: 'Retail Cost',
+            Cell: ({ cell }) => (
+                <Typography>
+                    {cell.getValue() ? `$${parseFloat(cell.getValue() as string).toFixed(2)}` : '-'}
+                </Typography>
+            )
+        },
+        {
+            accessorFn: (row) => {
+                const wholesaleCost = row.wholesale_cost;
+                const retailCost = row.retail_cost;
+                if (wholesaleCost && retailCost) {
+                    const wholesale = parseFloat(wholesaleCost);
+                    const retail = parseFloat(retailCost);
+                    return `$${(retail - wholesale).toFixed(2)}`;
+                }
+                return '-';
+            },
+            header: 'Profit'
+        },
+        {
             accessorKey: 'inventory_status',
             header: 'Status'
         },

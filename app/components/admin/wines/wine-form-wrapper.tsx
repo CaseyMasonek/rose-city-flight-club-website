@@ -30,7 +30,9 @@ export default async function WineFormWrapper() {
         appellation: await getColumn('wines', 'appellation'),
         distributor: await getColumn('wines', 'distributor'),
         inventory_status: ["In Stock","Out of Stock", "Archived", "TBD"],
-        tags: uniqueTags
+        tags: uniqueTags,
+        wholesale_cost: [],
+        retail_cost: []
     }
 
     return <WineForm options={options} />

@@ -3,7 +3,7 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { titleCase } from "@/app/lib/utils";
 
-interface InputFieldProps {
+type InputFieldProps = {
   field: {
     field: string;
     multiple: boolean;
@@ -33,6 +33,29 @@ export default function InputField({
   setSelectedTags,
   setSelectedVarietals,
 }: InputFieldProps) {
+  // For cost fields, use a simple TextField instead of Autocomplete
+  if (field.field === 'wholesale_cost' || field.field === 'retail_cost') {
+    return (
+      <TextField
+        variant={"filled"}
+        label={titleCase(field.field)}
+        name={field.field}
+        id={field.field}
+        inputRef={index === 0 ? firstBoxRef : null}
+        className={index.toString()}
+        value={formValues[field.field] || ''}
+        type="number"
+        onChange={(e) => {
+          const { name, value } = e.target;
+          setFormValues((prevState: any) => ({
+            ...prevState,
+            [name]: value,
+          }));
+        }}
+      />
+    );
+  }
+
   return (
     <Autocomplete
       freeSolo

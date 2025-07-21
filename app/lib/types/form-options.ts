@@ -13,4 +13,6 @@ export type wineFormOptions = {
     distributor: string[]
     inventory_status: string[]
     tags: string[]
+    wholesale_cost: string[]
+    retail_cost: string[]
 }

@@ -35,5 +35,7 @@ export interface Database {
         tags: string
         image_url: string | null
         back_image_url: string | null
+        wholesale_cost: string | null
+        retail_cost: string | null
     }
 }

@@ -73,6 +73,8 @@ export default function WineForm({
     { field: "distributor", multiple: false },
     { field: "inventory_status", multiple: false, dropdown: true },
     { field: "tags", multiple: true, multiVal: selectedTags },
+    { field: "wholesale_cost", multiple: false },
+    { field: "retail_cost", multiple: false },
   ];
 
   const emptyForm: Wine = {
@@ -93,6 +95,8 @@ export default function WineForm({
     producer: "",
     inventory_status: "TBD", // or any other default value
     tags: "",
+    retail_cost: "",
+    wholesale_cost: "",
     image_url: null,
     back_image_url: null,
   };
@@ -142,6 +146,8 @@ export default function WineForm({
       designation: formData.get("designation") as string,
       distributor: formData.get("distributor") as string,
       producer: formData.get("producer") as string,
+      wholesale_cost: formData.get("wholesale_cost") as string || null,
+      retail_cost: formData.get("retail_cost") as string || null,
       inventory_status: formData.get("inventory_status") as
         | "In Stock"
         | "Out of Stock"

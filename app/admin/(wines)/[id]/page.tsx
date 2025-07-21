@@ -28,6 +28,15 @@ export default async function Page({params}:{params:Promise<{id : string}>}) {
             <Typography variant={'h4'}>
                 {wine.name}
             </Typography>
+            <Box sx={{ mt: 2, mb: 2 }}>
+                <Typography variant={'h6'}>Cost Information</Typography>
+                <Typography>
+                    Wholesale Cost: {wine.wholesale_cost ? `$${parseFloat(wine.wholesale_cost).toFixed(2)}` : 'Not set'}
+                </Typography>
+                <Typography>
+                    Retail Cost: {wine.retail_cost ? `$${parseFloat(wine.retail_cost).toFixed(2)}` : 'Not set'}
+                </Typography>
+            </Box>
             {signedImageUrlFront &&
             <Image src={signedImageUrlFront} alt={wine.name} height={500} width={500} />
             }

@@ -38,7 +38,9 @@ export default async function Page({params}:{params:Promise<{id : string}>}) {
         appellation: await getColumn('wines', 'appellation'),
         distributor: await getColumn('wines', 'distributor'),
         inventory_status: ["In Stock","Out of Stock", "Archived", "TBD"],
-        tags: uniqueTags
+        tags: uniqueTags,
+        wholesale_cost: [],
+        retail_cost: []
     }
 
     let frontFile : File | undefined = undefined

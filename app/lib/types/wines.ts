@@ -21,6 +21,8 @@ export type Wine = {
     tags: string
     image_url: string | null
     back_image_url: string | null
+    wholesale_cost: string | null
+    retail_cost: string | null
 }
 
 export type WineFormData = {
@@ -41,4 +43,6 @@ export type WineFormData = {
   tags: string;
   image_url: string | null;
   back_image_url: string | null;
+  wholesale_cost: string | null;
+  retail_cost: string | null;
 };
