@@ -2,7 +2,7 @@
 
 import { createWine, deleteWine, getWine, updateWine } from "@/app/lib/dal/wines";
 import { supabase } from "@/app/lib/db/supabaseClient";
-import { WineFormData } from "../types/wines";
+import { WineFormData } from "../../types/wines";
 
 export async function handleDeleteWine(id: string): Promise<void> {
   await deleteWine(id);

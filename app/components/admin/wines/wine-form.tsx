@@ -9,7 +9,7 @@ import {
   uploadImage,
   handleUpdateWine,
   getWineImageUrls,
-} from "@/app/lib/admin/actions";
+} from "@/app/lib/admin/(wines)/actions";
 import { Wine } from "@/app/lib/types/wines";
 import FileDrop from "../../common/file-drop";
 import InputField from "@/app/components/admin/wines/input-field";
@@ -38,8 +38,14 @@ export default function WineForm({
   const [selectedTags, setSelectedTags] = useState<string[]>(
     data?.tags ? JSON.parse(data.tags) : []
   );
-  const [selectedVarietals, setSelectedVarietals] = useState<string[]>([]);
+  const [selectedVarietals, setSelectedVarietals] = useState<string[]>(
+    data?.varietals ? JSON.parse(data.varietals) : []
+  );
   const [addAnother, setAddAnother] = useState(false);
+
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(
+    data?.type ? JSON.parse(data.type) : []
+  );
 
   useEffect(() => {
     if (defaultFrontImage) {
@@ -55,26 +61,26 @@ export default function WineForm({
 
   const fields: {
     field: keyof wineFormOptions;
-    multiple: boolean;
+    type: "multiple" | "single" | "number" | "dropdown" | "autocomplete";
     multiVal?: string[];
-    dropdown?: boolean;
+    setMultiVal?: (values: string[]) => void;
   }[] = [
-    { field: "name", multiple: false },
-    { field: "vintage", multiple: false },
-    { field: "producer", multiple: false },
-    { field: "type", multiple: false },
-    { field: "varietals", multiple: true, multiVal: selectedVarietals },
-    { field: "country", multiple: false },
-    { field: "region", multiple: false },
-    { field: "subregion", multiple: false },
-    { field: "appellation", multiple: false },
-    { field: "vineyard", multiple: false },
-    { field: "designation", multiple: false },
-    { field: "distributor", multiple: false },
-    { field: "inventory_status", multiple: false, dropdown: true },
-    { field: "tags", multiple: true, multiVal: selectedTags },
-    { field: "wholesale_cost", multiple: false },
-    { field: "retail_cost", multiple: false },
+    { field: "name", type: "autocomplete" },
+    { field: "vintage", type: "dropdown" },
+    { field: "producer", type: "autocomplete" },
+    { field: "type", type: "multiple", multiVal: selectedTypes, setMultiVal: setSelectedTypes },
+    { field: "varietals", type: "multiple", multiVal: selectedVarietals, setMultiVal: setSelectedVarietals },
+    { field: "country", type: "autocomplete" },
+    { field: "region", type: "autocomplete" },
+    { field: "subregion", type: "autocomplete" },
+    { field: "appellation", type: "autocomplete" },
+    { field: "vineyard", type: "autocomplete" },
+    { field: "designation", type: "autocomplete" },
+    { field: "distributor", type: "autocomplete" },
+    { field: "inventory_status", type: "dropdown" },
+    { field: "tags", type: "multiple", multiVal: selectedTags, setMultiVal: setSelectedTags },
+    { field: "wholesale_cost", type: "number" },
+    { field: "retail_cost", type: "number" },
   ];
 
   const emptyForm: Wine = {
@@ -136,7 +142,7 @@ export default function WineForm({
       notes: formData.get("notes") as string,
       name: formData.get("name") as string,
       vintage: formData.get("vintage") as string,
-      type: formData.get("type") as string,
+      type: JSON.stringify(selectedTypes),
       varietals: JSON.stringify(selectedVarietals),
       country: formData.get("country") as string,
       region: formData.get("region") as string,
@@ -171,6 +177,7 @@ export default function WineForm({
       setAddAnother(false);
       setSelectedTags([]);
       setSelectedVarietals([]);
+      setSelectedTypes([]);
       setFrontImage(null);
       firstBoxRef.current!.focus();
     }
@@ -203,10 +210,8 @@ export default function WineForm({
               data={data}
               index={i}
               firstBoxRef={firstBoxRef}
-              selectedTags={selectedTags}
-              setSelectedTags={setSelectedTags}
-              selectedVarietals={selectedVarietals}
-              setSelectedVarietals={setSelectedVarietals}
+              multiVal={field.multiVal}
+              setMultiVal={field.setMultiVal}
             />
           ))}
           <TextField

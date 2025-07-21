@@ -22,12 +22,13 @@ export default async function Page({params}:{params:Promise<{id : string}>}) {
         return JSON.parse(varietalList)
     })
 
+
     const uniqueVarietals = uniqueStrings(varietals)
 
     const options : wineFormOptions = {
         name: await getColumn('wines', 'name'),
-        vintage: await getColumn('wines', 'vintage'),
-        type: ["White","Red","Rose"],
+        vintage: Array.from({ length: 100 }, (_, i) => (2025 - i).toString()),
+        type: ["White","Red","Rosé","Sparkling","Dessert","Fortified","Other"],
         producer: await  getColumn('wines', 'producer'),
         varietals: uniqueVarietals,
         designation: await getColumn('wines', 'designation'),

@@ -1,14 +1,13 @@
 "use client";
 
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { titleCase } from "@/app/lib/utils";
 
 type InputFieldProps = {
   field: {
     field: string;
-    multiple: boolean;
+    type: "multiple" | "single" | "number" | "dropdown" | "autocomplete";
     multiVal?: string[];
-    dropdown?: boolean;
   };
   options: string[];
   formValues: any;
@@ -16,11 +15,8 @@ type InputFieldProps = {
   data?: any;
   index: number;
   firstBoxRef?: React.RefObject<HTMLInputElement | null>;
-  setSelectedTags?: (tags: string[]) => void;
-  selectedTags?: string[];
-  selectedVarietals?: string[];
-  setSelectedVarietals?: (varietals: string[]) => void;
-}
+  setMultiVal?: (values: string[]) => void;
+};
 
 export default function InputField({
   field,
@@ -30,11 +26,10 @@ export default function InputField({
   data,
   index,
   firstBoxRef,
-  setSelectedTags,
-  setSelectedVarietals,
+  setMultiVal,
 }: InputFieldProps) {
-  // For cost fields, use a simple TextField instead of Autocomplete
-  if (field.field === 'wholesale_cost' || field.field === 'retail_cost') {
+
+  if (field.type === "number") {
     return (
       <TextField
         variant={"filled"}
@@ -43,7 +38,7 @@ export default function InputField({
         id={field.field}
         inputRef={index === 0 ? firstBoxRef : null}
         className={index.toString()}
-        value={formValues[field.field] || ''}
+        value={formValues[field.field] || ""}
         type="number"
         onChange={(e) => {
           const { name, value } = e.target;
@@ -56,17 +51,49 @@ export default function InputField({
     );
   }
 
+  if (field.type === "dropdown") {
+    return (
+      <FormControl variant={"filled"}>
+        <InputLabel id={`${field.field}-label`}>{titleCase(field.field)}</InputLabel>
+        <Select
+          variant={"filled"}
+          label={titleCase(field.field)}
+          name={field.field}
+          id={field.field}
+          value={formValues[field.field]}
+          onChange={(e) => {
+            const { name, value } = e.target;
+            setFormValues((prevState: any) => ({
+              ...prevState,
+              [name]: value,
+            }));
+          }}
+        >
+          {options.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    );
+  }
+
   return (
     <Autocomplete
       freeSolo
       defaultValue={
         data
-          ? field.multiple
-            ? JSON.parse(data[field.field])
+          ? field.type === "multiple"
+            ? Array.isArray(data[field.field])
+              ? data[field.field]
+              : JSON.parse(data[field.field])
             : [data[field.field] as string]
           : []
       }
-      value={field.multiple ? field.multiVal : formValues[field.field]}
+      value={
+        field.type === "multiple" ? field.multiVal : formValues[field.field]
+      }
       renderInput={(params) => (
         <TextField
           {...params}
@@ -88,13 +115,13 @@ export default function InputField({
       )}
       options={options}
       key={index}
-      multiple={field.multiple}
+      multiple={field.type === "multiple"}
       onChange={(_, newValue) => {
         if (!newValue) {
           newValue = [];
         }
 
-        if (!field.multiple) {
+        if (field.type !== "multiple") {
           setFormValues((prevState: any) => ({
             ...prevState,
             [field.field]: newValue,
@@ -105,19 +132,10 @@ export default function InputField({
           newValue = [newValue];
         }
 
-        switch (field.field) {
-          case "tags":
-            if (setSelectedTags) {
-              setSelectedTags(newValue as string[]);
-            }
-            return;
-          case "varietals":
-            if (setSelectedVarietals) {
-              setSelectedVarietals(newValue as string[]);
-            }
-            return;
+        if (setMultiVal) {
+          setMultiVal(newValue as string[]);
         }
       }}
     />
   );
-} 
+}

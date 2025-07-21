@@ -2,8 +2,9 @@ import {getColumn} from "@/app/lib/dal/dynamic";
 import {wineFormOptions} from "@/app/lib/types/form-options";
 import {uniqueStrings} from "@/app/lib/utils";
 import WineForm from "@/app/components/admin/wines/wine-form";
+import { Wine } from "@/app/lib/types/wines";
 
-export default async function WineFormWrapper() {
+export default async function WineFormWrapper({data}: {data?: Wine}) {
     const tags = (await getColumn('wines', 'tags')).map((tagList:string) => {
         return JSON.parse(tagList)
     })
@@ -18,8 +19,8 @@ export default async function WineFormWrapper() {
 
     const options : wineFormOptions = {
         name: await getColumn('wines', 'name'),
-        vintage: await getColumn('wines', 'vintage'),
-        type: ["White","Red","Rose"],
+        vintage: Array.from({ length: 100 }, (_, i) => (2025 - i).toString()),
+        type: ["White","Red","Rosé","Sparkling","Dessert","Fortified","Other"],
         producer: await  getColumn('wines', 'producer'),
         varietals: uniqueVarietals,
         designation: await getColumn('wines', 'designation'),
@@ -35,5 +36,5 @@ export default async function WineFormWrapper() {
         retail_cost: []
     }
 
-    return <WineForm options={options} />
+    return <WineForm options={options} data={data} />
 }
