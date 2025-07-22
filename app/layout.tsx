@@ -4,7 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@mui/material";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { CssBaseline, Stack, Box } from "@mui/material";
-import theme, { getTheme } from "@/app/theme";
+import theme from "@/app/theme";
 import Header from "@/app/components/header/header";
 import Footer from "@/app/components/footer";
 import { Analytics } from "@vercel/analytics/next"
