@@ -19,7 +19,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { handleDeleteWine } from "@/app/lib/admin/(wines)/actions";
+import { handleDeleteWine } from "@/app/lib/admin/wines/actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

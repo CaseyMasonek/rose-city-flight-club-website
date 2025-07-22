@@ -31,7 +31,7 @@ export interface Database {
         appellation: string
         distributor: string
         notes: string
-        inventory_status: "In Stock" | "Out of Stock" | "Archived" | "TBD"
+        inventory_status: "In Stock" | "Out of Stock" | "Archived" | "TBD" | "On Order"
         tags: string
         image_url: string | null
         back_image_url: string | null

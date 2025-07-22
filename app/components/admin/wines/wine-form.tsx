@@ -9,7 +9,7 @@ import {
   uploadImage,
   handleUpdateWine,
   getWineImageUrls,
-} from "@/app/lib/admin/(wines)/actions";
+} from "@/app/lib/admin/wines/actions";
 import { Wine } from "@/app/lib/types/wines";
 import FileDrop from "../../common/file-drop";
 import InputField from "@/app/components/admin/wines/input-field";

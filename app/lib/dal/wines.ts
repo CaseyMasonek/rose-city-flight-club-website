@@ -1,7 +1,5 @@
 import { db } from "@/app/lib/db/client";
-import { Database } from "@/app/lib/db/schema";
 import { cache } from "react";
-import { supabase } from "@/app/lib/db/supabaseClient";
 import { WineFormData } from "../types/wines";
 
 export const getWines = cache(async () => {
@@ -25,8 +23,6 @@ export const createWine = cache(async (data: WineFormData) => {
 });
 
 export const updateWine = cache(async (data: WineFormData, id: string) => {
- console.log(id,data)
-
   return db
     .updateTable("wines")
     .set(data)
