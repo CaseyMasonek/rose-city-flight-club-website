@@ -8,3 +8,11 @@ export const getImage = cache(async (path:string) => {
 
     return data!.signedUrl
 })
+
+export const deleteImage = cache(async (path:string) => {
+    const {error} = await supabase.storage
+        .from('wine-images')
+        .remove([path])
+    
+    if (error) throw error
+})

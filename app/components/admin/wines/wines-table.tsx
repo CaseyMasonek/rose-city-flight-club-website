@@ -162,9 +162,19 @@ export default function WinesTable({ data }: { data: Wine[] }) {
         accessorKey: "notes",
         header: "Notes",
         Cell: ({ cell }) => (
-          <Typography>
-            {(cell.getValue() as string).slice(0, 25)}
-            {(cell.getValue() as string).length > 30 && <>...</>}
+          <Typography sx={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            maxWidth: "200px",
+            "&:hover": {
+                overflow: "visible",
+                textOverflow: "clip",
+                whiteSpace: "normal",
+                maxWidth: "none",
+            }
+          }}>
+            {cell.getValue() as string}
           </Typography>
         ),
       },
@@ -194,6 +204,8 @@ export default function WinesTable({ data }: { data: Wine[] }) {
       table.setRowSelection({});
 
       await handleDeleteWine(row.getValue("id"));
+
+      router.refresh();
     });
 
     setIsLoading(false);

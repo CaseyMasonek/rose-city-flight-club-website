@@ -3,8 +3,14 @@
 import { createWine, deleteWine, getWine, updateWine } from "@/app/lib/dal/wines";
 import { supabase } from "@/app/lib/db/supabaseClient";
 import { WineFormData } from "../../types/wines";
+import { deleteImage } from "../../dal/common";
 
 export async function handleDeleteWine(id: string): Promise<void> {
+  const imageUrls = await getWineImageUrls(id);
+
+  if (imageUrls?.front) await deleteImage(imageUrls.front);
+  if (imageUrls?.back) await deleteImage(imageUrls.back);
+
   await deleteWine(id);
 }
 
