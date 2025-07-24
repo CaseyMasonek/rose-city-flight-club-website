@@ -3,15 +3,15 @@ import { Box, Modal } from "@mui/material";
 
 export default function Layout({
   children,
-  wine,
+  modal,
 }: {
   children: ReactNode;
-  wine: ReactNode;
+  modal: ReactNode;
 }) {
   return (
     <Box>
       {children}
-      {wine}
+      {modal}
     </Box>
   );
 }

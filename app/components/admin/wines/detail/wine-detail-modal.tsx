@@ -3,8 +3,8 @@
 import { Wine } from "@/app/lib/types/wines";
 import { Modal, Typography, Card, Box } from "@mui/material";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import WineDetails from "./wine-details";
 
 export default function WineDetailModal({
   wine,
@@ -16,14 +16,10 @@ export default function WineDetailModal({
     back: string | null;
   } | null;
 }) {
-  const router = useRouter();
   const [open, setOpen] = useState(true);
 
   return (
-    <Box sx={{
-        width: "100%",
-        height: "100dvh"
-    }}>
+
       <Modal
         open={open}
         sx={{
@@ -36,37 +32,10 @@ export default function WineDetailModal({
         <Card variant="outlined" sx={{
             width: "100%",
             height: "90vh",
-            p: 2
+            p: 2,
         }}>
-          <Typography variant={"h4"}>{wine.name}</Typography>
-          <Box sx={{ mt: 2, mb: 2 }}>
-            <Typography variant={"h6"}>Cost Information</Typography>
-            <Typography>
-              Wholesale Cost:{" "}
-              {wine.wholesale_cost
-                ? `$${parseFloat(wine.wholesale_cost).toFixed(2)}`
-                : "Not set"}
-            </Typography>
-            <Typography>
-              Retail Cost:{" "}
-              {wine.retail_cost
-                ? `$${parseFloat(wine.retail_cost).toFixed(2)}`
-                : "Not set"}
-            </Typography>
-          </Box>
-          {images?.front && (
-            <Image
-              src={images.front}
-              alt={wine.name}
-              height={500}
-              width={500}
-            />
-          )}
-          {images?.back && (
-            <Image src={images.back} alt={wine.name} height={500} width={500} />
-          )}
+          <WineDetails wine={wine} images={images} />
         </Card>
       </Modal>
-    </Box>
   );
 }

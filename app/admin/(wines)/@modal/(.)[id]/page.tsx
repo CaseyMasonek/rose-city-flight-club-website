@@ -7,7 +7,8 @@ export default async function Page({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  
+  console.log("confusion")
+
   return (
     <Suspense fallback={<WineDetailModalSkeleton />}>
       <WineDetailModalWrapper params={params} />

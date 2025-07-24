@@ -45,9 +45,11 @@ export default function WinesTable({ data }: { data: Wine[] }) {
         accessorKey: "name",
         header: "Name",
         Cell: ({ renderedCellValue, row }) => (
-          <Link component={NextLink} href={`/admin/${row.getValue("id")}`}>
-            {renderedCellValue}
-          </Link>
+          <NextLink href={`/admin/${row.getValue("id")}`}>
+            <Link>
+                {renderedCellValue}
+            </Link>
+          </NextLink>
         ),
       },
       {
