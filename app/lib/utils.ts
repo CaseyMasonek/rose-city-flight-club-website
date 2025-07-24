@@ -1,3 +1,5 @@
+import { PixelCrop } from "react-image-crop";
+
 export function titleCase(s:string) {
     return s.toLowerCase()
         .replaceAll(/_/g," ")
@@ -20,4 +22,43 @@ export const urlToObject= async(image:string) => {
   console.log(file)
 
   return file
+}
+
+export function getCroppedImg(
+  image: HTMLImageElement,
+  crop: PixelCrop,
+): Promise<File> {
+  const canvas = document.createElement('canvas');
+  const scaleX = image.naturalWidth / image.width;
+  const scaleY = image.naturalHeight / image.height;
+
+  canvas.width = crop.width;
+  canvas.height = crop.height;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('No 2D context');
+
+  ctx.drawImage(
+    image,
+    crop.x * scaleX,
+    crop.y * scaleY,
+    crop.width * scaleX,
+    crop.height * scaleY,
+    0,
+    0,
+    crop.width,
+    crop.height,
+  );
+
+  return new Promise<File>((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) return reject(new Error('Canvas is empty'));
+        const file = new File([blob], 'cropped.jpg', { type: 'image/jpeg' });
+        resolve(file);
+      },
+      'image/jpeg',
+      1,
+    );
+  });
 }

@@ -1,7 +1,11 @@
-import { Box, Card, Chip, Typography } from "@mui/material";
+import { Box, Card, Chip, Typography, Modal, Button } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { useDropzone } from "react-dropzone";
-import { useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
+import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
+import Image from "next/image";
+import "react-image-crop/dist/ReactCrop.css";
+import { getCroppedImg } from "@/app/lib/utils";
 
 export default function FileDrop({
   image,
@@ -12,8 +16,18 @@ export default function FileDrop({
   setImage: (image: File | null) => void;
   name: string;
 }) {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [crop, setCrop] = useState<Crop>();
+  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+
+  const [open, setOpen] = useState(true);
+
+  const imgRef = useRef<HTMLImageElement>(null)
+
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    setImage(acceptedFiles[0]);
+    setPreviewUrl(URL.createObjectURL(acceptedFiles[0]));
+    setOpen(true)
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -22,6 +36,14 @@ export default function FileDrop({
     },
     onDrop,
   });
+
+  async function handleSaveCrop() {
+    setOpen(false)
+
+    const img = await getCroppedImg(imgRef.current!,completedCrop!)
+
+    setImage(img)
+  }
 
   return (
     <Box>
@@ -69,10 +91,72 @@ export default function FileDrop({
           <Chip
             label={image.name ? image.name : "image"}
             onDelete={() => {
+              setPreviewUrl(null);
               setImage(null);
             }}
           />
         </Card>
+      )}
+      {previewUrl && (
+        <Modal open={open}>
+          <Box
+            sx={{
+              width: "100%",
+              height: "100vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Card
+              sx={{
+                p: 3,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Box>
+                <Typography variant="h4">Please crop this image</Typography>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <ReactCrop
+                    crop={crop}
+                    onChange={(c) => setCrop(c)}
+                    aspect={3 / 5}
+                    onComplete={(c) => setCompletedCrop(c)}
+                  >
+                    <Image
+                      src={previewUrl}
+                      ref={imgRef}
+                      width={250}
+                      height={500}
+                      alt={"Image you just uploaded"}
+                    />
+                  </ReactCrop>
+                </Box>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button variant="contained" sx={{
+                    width: '100%',
+                    mt: 2
+                  }} onClick={handleSaveCrop}>Save</Button>
+                </Box>
+              </Box>
+            </Card>
+          </Box>
+        </Modal>
       )}
     </Box>
   );

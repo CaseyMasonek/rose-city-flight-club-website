@@ -23,7 +23,7 @@ export default function WineDetails({
     >
       <Box>
         {images?.front && (
-          <Image src={images.front} alt={wine.name} height={0} width={0} />
+          <Image src={images.front} alt={wine.name} height={500} width={500} />
         )}
         {images?.back && (
           <Image src={images.back} alt={wine.name} height={500} width={500} />
