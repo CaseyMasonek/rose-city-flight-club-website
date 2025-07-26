@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { verifySession } from "@/app/lib/dal/users";
+import { verifySession } from "@/lib/dal/users";
 import { redirect } from "next/navigation";
 
 export default async function Layout({

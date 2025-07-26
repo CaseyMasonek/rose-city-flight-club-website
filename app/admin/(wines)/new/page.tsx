@@ -1,5 +1,5 @@
 import {Box, Stack, CircularProgress} from '@mui/material';
-import WineFormWrapper from '@/app/components/admin/wines/wine-form-wrapper';
+import WineFormWrapper from '@/components/admin/wines/wine-form-wrapper';
 import { Suspense } from 'react';
 
 export default async function Page() {

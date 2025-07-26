@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import LoginForm from "@/app/components/login/login-form";
+import LoginForm from "@/components/login/login-form";
 
 export default function Page() {
   const horizontallyCentered = {

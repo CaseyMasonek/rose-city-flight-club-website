@@ -1,5 +1,5 @@
-import WineDetailModalWrapper from "@/app/components/admin/wines/detail/wine-detail-modal-wrapper";
-import WineDetailModalSkeleton from "@/app/components/admin/wines/detail/wine-detail-modal-skeleton";
+import WineDetailModalWrapper from "@/components/admin/wines/detail/wine-detail-modal-wrapper";
+import WineDetailModalSkeleton from "@/components/admin/wines/detail/wine-detail-modal-skeleton";
 import { Suspense } from "react";
 
 export default async function Page({

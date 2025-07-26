@@ -1,5 +1,5 @@
 import {Box, Typography} from '@mui/material'
-import {getUser} from "@/app/lib/dal/users";
+import {getUser} from "@/lib/dal/users";
 
 export default async function Home() {
     const user = await getUser()

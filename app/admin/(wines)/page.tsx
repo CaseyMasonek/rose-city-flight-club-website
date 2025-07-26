@@ -1,5 +1,5 @@
 import {Box, CircularProgress, Typography} from "@mui/material";
-import WinesTableWrapper from "@/app/components/admin/wines/wines-table-wrapper";
+import WinesTableWrapper from "@/components/admin/wines/wines-table-wrapper";
 import { Suspense } from "react";
 
 

@@ -1,9 +1,9 @@
 import {Box} from "@mui/material";
-import WineForm from "@/app/components/admin/wines/wine-form";
-import {getWine} from "@/app/lib/dal/wines";
-import {getWineFormOptions} from "@/app/lib/admin/wines/form-options-util";
-import { getImage } from "@/app/lib/dal/common";
-import { urlToObject } from "@/app/lib/utils";
+import WineForm from "@/components/admin/wines/wine-form";
+import {getWine} from "@/lib/dal/wines";
+import {getWineFormOptions} from "@/lib/admin/wines/form-options-util";
+import { getImage } from "@/lib/dal/common";
+import { urlToObject } from "@/lib/utils";
 
 export default async function Page({params}:{params:Promise<{id : string}>}) {
     const {id} = await params;
