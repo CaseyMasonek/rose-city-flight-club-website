@@ -1,9 +1,21 @@
 "use client";
 
 import { Wine } from "@/lib/types/wines";
-import { Box, Divider, Pagination, Skeleton, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Pagination,
+  Skeleton,
+  Switch,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
 import { Suspense, useState } from "react";
+import { titleCase } from "@/lib/utils";
 
 export default function WineDetails({
   wine,
@@ -28,6 +40,8 @@ export default function WineDetails({
     }
   }
 
+  const [showUnset,setShowUnset] = useState(false)
+
   return (
     <Box
       sx={{
@@ -39,57 +53,57 @@ export default function WineDetails({
     >
       {(images?.front || images?.back) && (
         <>
-        <Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: '80vh'
-            }}
-          >
-            {images?.front &&
-              ((images?.front && images.back && isFrontImage) ||
-                !images.back) && (
-                <Suspense
-                  fallback={
-                    <Skeleton
-                      variant="rectangular"
-                      width={400 / 3}
-                      height={400}
+          <Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "80vh",
+              }}
+            >
+              {images?.front &&
+                ((images?.front && images.back && isFrontImage) ||
+                  !images.back) && (
+                  <Suspense
+                    fallback={
+                      <Skeleton
+                        variant="rectangular"
+                        width={400 / 3}
+                        height={400}
+                      />
+                    }
+                  >
+                    <Image
+                      src={images.front}
+                      alt={wine.name}
+                      height={400 / 3}
+                      width={400}
                     />
-                  }
-                >
-                  <Image
-                    src={images.front}
-                    alt={wine.name}
-                    height={400 / 3}
-                    width={400}
-                  />
-                </Suspense>
-              )}
-            {images?.back &&
-              ((images?.front && images.back && !isFrontImage) ||
-                !images.front) && (
-                <Suspense
-                  fallback={
-                    <Skeleton
-                      variant="rectangular"
-                      width={400 / 3}
-                      height={400}
+                  </Suspense>
+                )}
+              {images?.back &&
+                ((images?.front && images.back && !isFrontImage) ||
+                  !images.front) && (
+                  <Suspense
+                    fallback={
+                      <Skeleton
+                        variant="rectangular"
+                        width={400 / 3}
+                        height={400}
+                      />
+                    }
+                  >
+                    <Image
+                      src={images.back}
+                      alt={wine.name}
+                      height={400 / 3}
+                      width={400}
                     />
-                  }
-                >
-                  <Image
-                    src={images.back}
-                    alt={wine.name}
-                    height={400 / 3}
-                    width={400}
-                  />
-                </Suspense>
-              )}
-          </Box>
-          {images?.front && images.back && (
+                  </Suspense>
+                )}
+            </Box>
+            {images?.front && images.back && (
               <Box
                 sx={{
                   width: "100%",
@@ -105,7 +119,7 @@ export default function WineDetails({
                 />
               </Box>
             )}
-            </Box>
+          </Box>
           <Divider orientation="vertical" variant="middle" flexItem />
         </>
       )}
@@ -116,20 +130,48 @@ export default function WineDetails({
       >
         <Typography variant={"h4"}>{wine.name}</Typography>
         <Box sx={{ mt: 2, mb: 2 }}>
-          <Typography variant={"h6"}>Cost Information</Typography>
-          <Typography>
-            Wholesale Cost:{" "}
-            {wine.wholesale_cost
-              ? `$${parseFloat(wine.wholesale_cost).toFixed(2)}`
-              : "Not set"}
-          </Typography>
-          <Typography>
-            Retail Cost:{" "}
-            {wine.retail_cost
-              ? `$${parseFloat(wine.retail_cost).toFixed(2)}`
-              : "Not set"}
-          </Typography>
+          <ul style={{
+            height: '67vh'
+          }}>
+            {Object.entries(wine).map(([key, val]) => {
+              if (['id','image_url','back_image_url', 'name'].includes(key)) return null;
+
+              if (val == "[]" || val == "" || val == null) {
+                if (!showUnset) return null
+
+                return (
+                  <li className="text-gray-300">
+                    {titleCase(key.toString())}: Unset
+                  </li>
+                );
+              }
+
+              if (Array.isArray(val)) {
+                return (
+                  <li>
+                    {titleCase(key.toString())}:{" "}
+                    {val?.map((val) => (
+                      <Chip>{val}</Chip>
+                    ))}
+                  </li>
+                );
+              }
+
+              return (
+                <li>
+                  {titleCase(key.toString())}: {val?.toString()}
+                </li>
+              );
+            })}
+          </ul>
+          <br />
         </Box>
+        <FormControl>
+            <FormLabel>
+              Show empty values
+            </FormLabel>
+            <Switch onChange={(_,checked) => setShowUnset(checked)} />
+          </FormControl>
       </Box>
     </Box>
   );
