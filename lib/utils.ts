@@ -46,8 +46,8 @@ export function getCroppedImg(
     crop.height * scaleY,
     0,
     0,
-    crop.width,
-    crop.height,
+    crop.width * scaleX,
+    crop.height * scaleY,
   );
 
   return new Promise<File>((resolve, reject) => {
