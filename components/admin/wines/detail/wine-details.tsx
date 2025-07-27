@@ -12,10 +12,12 @@ import {
   Skeleton,
   Switch,
   Typography,
+  Link
 } from "@mui/material";
 import Image from "next/image";
 import { Suspense, useState } from "react";
 import { titleCase } from "@/lib/utils";
+import NextLink from "next/link";
 
 export default function WineDetails({
   wine,
@@ -39,6 +41,15 @@ export default function WineDetails({
         return;
     }
   }
+
+  function isJson(str:string) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 
   const [showUnset,setShowUnset] = useState(false)
 
@@ -131,7 +142,8 @@ export default function WineDetails({
         <Typography variant={"h4"}>{wine.name}</Typography>
         <Box sx={{ mt: 2, mb: 2 }}>
           <ul style={{
-            height: '67vh'
+            height: '67vh',
+            overflowY: 'auto'
           }}>
             {Object.entries(wine).map(([key, val]) => {
               if (['id','image_url','back_image_url', 'name'].includes(key)) return null;
@@ -146,12 +158,14 @@ export default function WineDetails({
                 );
               }
 
-              if (Array.isArray(val)) {
+              if (isJson(val.toString()) && Array.isArray(JSON.parse(val.toString()))) {
+                const array = JSON.parse(val.toString()) as string[]
+
                 return (
                   <li>
                     {titleCase(key.toString())}:{" "}
-                    {val?.map((val) => (
-                      <Chip>{val}</Chip>
+                    {array?.map((value) => (
+                      <Chip label={value} />
                     ))}
                   </li>
                 );
