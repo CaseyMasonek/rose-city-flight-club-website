@@ -32,8 +32,8 @@ export function getCroppedImg(
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
 
-  canvas.width = crop.width;
-  canvas.height = crop.height;
+  canvas.width = crop.width * 10;
+  canvas.height = crop.height * 10;
 
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('No 2D context');
@@ -46,8 +46,8 @@ export function getCroppedImg(
     crop.height * scaleY,
     0,
     0,
-    crop.width * scaleX,
-    crop.height * scaleY,
+    crop.width * 10,
+    crop.height * 10,
   );
 
   return new Promise<File>((resolve, reject) => {
