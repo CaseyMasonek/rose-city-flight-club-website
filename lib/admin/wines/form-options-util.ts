@@ -4,10 +4,10 @@ import { wineFormOptions } from "@/lib/types/form-options";
 
 export async function getWineFormOptions(): Promise<wineFormOptions> {
   const tags = (await getColumn('wines', 'tags')).map((tagList: string) => JSON.parse(tagList));
-  const uniqueTags = uniqueStrings(tags);
+  const uniqueTags = uniqueStrings(tags).sort();
 
   const varietals = (await getColumn('wines', 'varietals')).map((varietalList: string) => JSON.parse(varietalList));
-  const uniqueVarietals = uniqueStrings(varietals);
+  const uniqueVarietals = uniqueStrings(varietals).sort();
 
   const vintages = Array.from({ length: 100 }, (_, i) => (2025 - i).toString())
   

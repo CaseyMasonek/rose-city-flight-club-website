@@ -153,7 +153,7 @@ export default function WineDetails({
 
                 return (
                   <li className="text-gray-300">
-                    {titleCase(key.toString())}: Unset
+                    <b>{titleCase(key.toString())}:</b> Unset
                   </li>
                 );
               }
@@ -163,7 +163,8 @@ export default function WineDetails({
 
                 return (
                   <li>
-                    {titleCase(key.toString())}:{" "}
+                    <b>{titleCase(key.toString())}:{" "}</b>
+                    
                     {array?.map((value) => (
                       <Chip label={value} />
                     ))}
@@ -173,7 +174,7 @@ export default function WineDetails({
 
               return (
                 <li>
-                  {titleCase(key.toString())}: {val?.toString()}
+                  <b>{titleCase(key.toString())}:</b> {val?.toString()}
                 </li>
               );
             })}
