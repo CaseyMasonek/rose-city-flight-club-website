@@ -60,11 +60,12 @@ export default function WineDetails({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
+        mt: 3
       }}
     >
       {(images?.front || images?.back) && (
         <>
-          <Box>
+          <Box sx={{}}>
             <Box
               sx={{
                 display: "flex",
@@ -143,8 +144,8 @@ export default function WineDetails({
         <Box sx={{ mt: 2, mb: 2 }}>
           <ul style={{
             height: '67vh',
-            overflowY: 'auto'
-          }}>
+            overflowY: 'auto',
+          }} id="properties">
             {Object.entries(wine).map(([key, val]) => {
               if (['id','image_url','back_image_url', 'name'].includes(key)) return null;
 
@@ -152,7 +153,7 @@ export default function WineDetails({
                 if (!showUnset) return null
 
                 return (
-                  <li className="text-gray-300">
+                  <li className="text-gray-300 mb-1">
                     <b>{titleCase(key.toString())}:</b> Unset
                   </li>
                 );
@@ -162,7 +163,7 @@ export default function WineDetails({
                 const array = JSON.parse(val.toString()) as string[]
 
                 return (
-                  <li>
+                  <li className="mb-1">
                     <b>{titleCase(key.toString())}:{" "}</b>
                     
                     {array?.map((value) => (
@@ -173,7 +174,7 @@ export default function WineDetails({
               }
 
               return (
-                <li>
+                <li className="mb-1">
                   <b>{titleCase(key.toString())}:</b> {val?.toString()}
                 </li>
               );

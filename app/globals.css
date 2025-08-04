@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+ul#properties > li:nth-of-type(even) {
+  background-color: #0051540a;
+}
+
+ul#properties > li {
+    padding: 5;
+    border-radius: 10;
+}
