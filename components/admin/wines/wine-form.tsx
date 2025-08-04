@@ -169,10 +169,11 @@ export default function WineForm({
       wholesale_cost: (formData.get("wholesale_cost") as string) || null,
       retail_cost: (formData.get("retail_cost") as string) || null,
       inventory_status: formData.get("inventory_status") as
+        | "On Order"
         | "In Stock"
-        | "Out of Stock"
-        | "TBD"
-        | "Archived",
+        | "Sold Out"
+        | "Archived"
+        | "TBD",
       tags: JSON.stringify(selectedTags),
       image_url: image_url,
       back_image_url: back_image_url,

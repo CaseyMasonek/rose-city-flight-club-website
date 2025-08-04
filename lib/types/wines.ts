@@ -17,7 +17,7 @@ export type Wine = {
     appellation: string
     distributor: string
     notes: string
-    inventory_status: "In Stock" | "Out of Stock" | "Archived" | "TBD" | "On Order"
+    inventory_status: "On Order" | "In Stock" | "Sold Out" | "Archived" | "TBD"
     tags: string
     image_url: string | null
     back_image_url: string | null
@@ -39,7 +39,7 @@ export type WineFormData = {
   designation: string;
   distributor: string;
   producer: string;
-  inventory_status: "In Stock" | "Out of Stock" | "TBD" | "Archived" | "On Order";
+  inventory_status: "On Order" | "In Stock" | "Sold Out" | "TBD" | "Archived";
   tags: string;
   image_url: string | null;
   back_image_url: string | null;

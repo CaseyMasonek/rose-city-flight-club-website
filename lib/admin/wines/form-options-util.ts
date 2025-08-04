@@ -7,13 +7,11 @@ export async function getWineFormOptions(): Promise<wineFormOptions> {
   const uniqueTags = uniqueStrings(tags).sort();
 
   const varietals = (await getColumn('wines', 'varietals')).map((varietalList: string) => JSON.parse(varietalList));
-  const uniqueVarietals = uniqueStrings(varietals).sort();
+  const uniqueVarietals = uniqueStrings(varietals);
 
-  const vintages = Array.from({ length: 100 }, (_, i) => (2025 - i).toString())
-  
   return {
     name: await getColumn('wines', 'name'),
-    vintage: ["NV", ...vintages],
+    vintage: Array.from({ length: 100 }, (_, i) => (2025 - i).toString()).concat("NV"),
     type: ["White", "Red", "Rosé", "Sparkling", "Dessert", "Fortified", "Other"],
     producer: await getColumn('wines', 'producer'),
     varietals: uniqueVarietals,
@@ -24,7 +22,7 @@ export async function getWineFormOptions(): Promise<wineFormOptions> {
     subregion: await getColumn('wines', 'subregion'),
     appellation: await getColumn('wines', 'appellation'),
     distributor: await getColumn('wines', 'distributor'),
-    inventory_status: ["In Stock", "Out of Stock", "Archived", "TBD", "On Order"],
+    inventory_status: ["On Order", "In Stock", "Sold Out", "Archived", "TBD"],
     tags: uniqueTags,
     wholesale_cost: [],
     retail_cost: [],
