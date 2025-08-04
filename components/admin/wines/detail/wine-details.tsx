@@ -60,7 +60,7 @@ export default function WineDetails({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
-        mt: 3
+        mt: 5
       }}
     >
       {(images?.front || images?.back) && (
